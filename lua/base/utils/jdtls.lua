@@ -8,7 +8,7 @@ function M.setup()
     return
   end
 
-  local lombok_path = "/home/jonathan/.m2/repository/org/projectlombok/lombok/1.18.30/lombok-1.18.30.jar"
+local lombok_path = vim.fn.expand("$HOME/.m2/repository/org/projectlombok/lombok/1.18.30/lombok-1.18.30.jar")
   local jdtls_path = vim.fn.stdpath("data") .. "/mason/packages/jdtls"
   local launcher_jar = vim.fn.glob(jdtls_path .. "/plugins/org.eclipse.equinox.launcher_*.jar")
   local config_dir = jdtls_path .. "/config_linux"
