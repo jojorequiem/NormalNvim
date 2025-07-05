@@ -104,17 +104,27 @@ maps.n["\\"] = { "<cmd>split<cr>", desc = "Horizontal Split" }
 maps.i["<C-BS>"] = { "<C-W>", desc = "Enable CTRL+backsace to delete." }
 maps.n["0"] =
 { "^", desc = "Go to the fist character of the line (aliases 0 to ^)" }
-maps.n["<leader>q"] = { "<cmd>confirm q<cr>", desc = "Quit" }
 maps.n["<leader>q"] = {
   function()
-    -- Ask user for confirmation
-    local choice = vim.fn.confirm("Do you really want to exit nvim?", "&Yes\n&No", 2)
-    if choice == 1 then
-      -- If user confirms, but there are still files to be saved: Ask
-      vim.cmd('confirm quit')
+     -- Check if any buffer is modified
+    local has_unsaved = false
+    for _, bufnr in ipairs(vim.api.nvim_list_bufs()) do
+      if vim.api.nvim_buf_get_option(bufnr, "modified") then
+        has_unsaved = true
+        break
+      end
+    end
+
+    if has_unsaved then
+      local choice = vim.fn.confirm("You have unsaved changes. Quit anyway?", "&Yes\n&No", 2)
+      if choice == 1 then
+        vim.cmd("qa!")
+      end
+    else
+      vim.cmd("qa")
     end
   end,
-  desc = "Quit",
+  desc = "Quit Neovim",
 }
 maps.n["<Tab>"] = {
   "<Tab>",
@@ -556,15 +566,16 @@ vim.api.nvim_create_autocmd("CmdwinEnter", {
 -- -------------------------------------------------------------------------
 
 -- alpha-nvim --------------------------------------------------------------
+
 if is_available("alpha-nvim") then
-  maps.n["<leader>h"] = {
+  maps.n["<leader>;"] = {
     function()
       local wins = vim.api.nvim_tabpage_list_wins(0)
       if #wins > 1
           and vim.api.nvim_get_option_value("filetype", { win = wins[1] })
           == "neo-tree"
       then
-        vim.fn.win_gotoid(wins[2]) -- go to non-neo-tree window to toggle alpha
+        vim.fn.win_gotoid(wins[2])
       end
       require("alpha").start(false, require("alpha").default_config)
       vim.b.miniindentscope_disable = true
@@ -572,6 +583,14 @@ if is_available("alpha-nvim") then
     desc = "Home screen",
   }
 end
+
+-- highlight --------------------------------------------------------------
+maps.n["<leader>h"] = {
+  function()
+    vim.cmd("nohlsearch")
+  end,
+  desc = "Clear highlight",
+}
 
 -- [git] -----------------------------------------------------------
 -- gitsigns.nvim
@@ -1297,12 +1316,12 @@ if is_available("markdown-preview.nvim") or is_available("markmap.nvim") or is_a
 end
 
 -- [neural] -----------------------------------------------------------------
-if is_available("neural") or is_available("copilot") then
-  maps.n["<leader>a"] = {
-    function() require("neural").prompt() end,
-    desc = "Ask chatgpt",
-  }
-end
+-- if is_available("neural") or is_available("copilot") then
+--   maps.n["<leader>a"] = {
+--     function() require("neural").prompt() end,
+--     desc = "Ask chatgpt",
+--   }
+-- end
 
 -- hop.nvim ----------------------------------------------------------------
 if is_available("hop.nvim") then

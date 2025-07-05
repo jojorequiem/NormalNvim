@@ -25,31 +25,41 @@ local is_windows = vim.fn.has('win32') == 1         -- true if on windows
 local is_android = vim.fn.isdirectory('/data') == 1 -- true if on android
 
 return {
+  -- gruvbox [theme]
+{
+  "ellisonleao/gruvbox.nvim",
+  lazy = false,
+  priority = 1000,
+  config = function()
+    vim.cmd.colorscheme("gruvbox")
+  end
+},
+
 
   --  tokyonight [theme]
   --  https://github.com/folke/tokyonight.nvim
-  {
-    "folke/tokyonight.nvim",
-    event = "User LoadColorSchemes",
-    opts = {
-      dim_inactive = false,
-      styles = {
-        comments = { italic = true },
-        keywords = { italic = true },
-      },
-    }
-  },
+  -- {
+  --   "folke/tokyonight.nvim",
+  --   event = "User LoadColorSchemes",
+  --   opts = {
+  --     dim_inactive = false,
+  --     styles = {
+  --       comments = { italic = true },
+  --       keywords = { italic = true },
+  --     },
+  --   }
+  -- },
 
   --  astrotheme [theme]
   --  https://github.com/AstroNvim/astrotheme
-  {
-    "AstroNvim/astrotheme",
-    event = "User LoadColorSchemes",
-    opts = {
-      palette = "astrodark",
-      plugins = { ["dashboard-nvim"] = true },
-    },
-  },
+  -- {
+  --   "AstroNvim/astrotheme",
+  --   event = "User LoadColorSchemes",
+  --   opts = {
+  --     palette = "astrodark",
+  --     plugins = { ["dashboard-nvim"] = true },
+  --   },
+  -- },
 
   --  alpha-nvim [greeter]
   --  https://github.com/goolord/alpha-nvim
@@ -128,29 +138,23 @@ return {
           [[  \/__/    \/_/\/_/\/_/\/_/]],
         }
       else
-        dashboard.section.header.val = {
-          [[888b      88                                                           88]],
-          [[8888b     88                                                           88]],
-          [[88 `8b    88                                                           88]],
-          [[88  `8b   88   ,adPPYba,   8b,dPPYba,  88,dPYba,,adPYba,   ,adPPYYba,  88]],
-          [[88   `8b  88  a8"     "8a  88P'   "Y8  88P'   "88"    "8a  ""     `Y8  88]],
-          [[88    `8b 88  8b       d8  88          88      88      88  ,adPPPPP88  88]],
-          [[88     `8888  "8a,   ,a8"  88          88      88      88  88,    ,88  88]],
-          [[88      `888   `"YbbdP"'   88          88      88      88  `"8bbdP"Y8  88]],
-          [[                                    __                ]],
-          [[                      ___   __  __ /\_\    ___ ___    ]],
-          [[                    /' _ `\/\ \/\ \\/\ \ /' __` __`\  ]],
-          [[                    /\ \/\ \ \ \_/ |\ \ \/\ \/\ \/\ \ ]],
-          [[                    \ \_\ \_\ \___/  \ \_\ \_\ \_\ \_\]],
-          [[                     \/_/\/_/\/__/    \/_/\/_/\/_/\/_/]],
-        }
+      dashboard.section.header.val = {
+        "                                                                     ",
+        "       ████ ██████           █████      ██                     ",
+        "      ███████████             █████                             ",
+        "      █████████ ███████████████████ ███   ███████████   ",
+        "     █████████  ███    █████████████ █████ ██████████████   ",
+        "    █████████ ██████████ █████████ █████ █████ ████ █████   ",
+        "  ███████████ ███    ███ █████████ █████ █████ ████ █████  ",
+        " ██████  █████████████████████ ████ █████ █████ ████ ██████ ",
+      }
       end
 
 
       local get_icon = require("base.utils").get_icon
 
       dashboard.section.header.opts.hl = "DashboardHeader"
-      vim.cmd("highlight DashboardHeader guifg=#F7778F")
+      -- vim.cmd("highlight DashboardHeader guifg=#F7778F")
 
       -- If yazi is not installed, don't show the button.
       local is_yazi_installed = vim.fn.executable("ya") == 1
@@ -216,42 +220,61 @@ return {
 
   --  [notifications]
   --  https://github.com/rcarriga/nvim-notify
-  {
-    "rcarriga/nvim-notify",
-    event = "User BaseDefered",
-    opts = function()
-      local fps
-      if is_android then fps = 30 else fps = 144 end
+{
+  "rcarriga/nvim-notify",
+  event = "User BaseDefered",
+  opts = function()
+    local fps
+    if is_android then fps = 30 else fps = 144 end
 
-      return {
-        timeout = 2500,
-        fps = fps,
-        max_height = function() return math.floor(vim.o.lines * 0.75) end,
-        max_width = function() return math.floor(vim.o.columns * 0.75) end,
-        on_open = function(win)
-          -- enable markdown support on notifications
-          vim.api.nvim_win_set_config(win, { zindex = 175 })
-          if not vim.g.notifications_enabled then
-            vim.api.nvim_win_close(win, true)
-          end
-          if not package.loaded["nvim-treesitter"] then
-            pcall(require, "nvim-treesitter")
-          end
-          vim.wo[win].conceallevel = 3
-          local buf = vim.api.nvim_win_get_buf(win)
-          if not pcall(vim.treesitter.start, buf, "markdown") then
-            vim.bo[buf].syntax = "markdown"
-          end
-          vim.wo[win].spell = false
-        end,
-      }
-    end,
-    config = function(_, opts)
-      local notify = require("notify")
-      notify.setup(opts)
-      vim.notify = notify
-    end,
-  },
+    return {
+      fps = fps,
+      timeout = 1500,
+      level = 2,
+      top_down = true,
+      background_colour = "NotifyBackground",
+      render = "minimal",
+      stages = "static",
+      icons = {
+        DEBUG = "",
+        ERROR = "",
+        INFO = "",
+        TRACE = "✎",
+        WARN = ""
+      },
+      time_formats = {
+        notification = "%T",
+        notification_history = "%FT%T"
+      },
+      max_height = function()
+        return math.floor(vim.o.lines * 0.75)
+      end,
+      max_width = function()
+        return math.floor(vim.o.columns * 0.75)
+      end,
+      on_open = function(win)
+        vim.api.nvim_win_set_config(win, { zindex = 175 })
+        if not vim.g.notifications_enabled then
+          vim.api.nvim_win_close(win, true)
+        end
+        if not package.loaded["nvim-treesitter"] then
+          pcall(require, "nvim-treesitter")
+        end
+        vim.wo[win].conceallevel = 3
+        local buf = vim.api.nvim_win_get_buf(win)
+        if not pcall(vim.treesitter.start, buf, "markdown") then
+          vim.bo[buf].syntax = "markdown"
+        end
+        vim.wo[win].spell = false
+      end,
+    }
+  end,
+  config = function(_, opts)
+    local notify = require("notify")
+    notify.setup(opts)
+    vim.notify = notify
+  end,
+},
 
   --  mini.indentscope [guides]
   --  https://github.com/echasnovski/mini.indentscope
@@ -347,12 +370,12 @@ return {
             return is_disabled
           end,
         },
-        tabline = { -- UI upper bar
-          lib.component.tabline_conditional_padding(),
-          lib.component.tabline_buffers(),
-          lib.component.fill { hl = { bg = "tabline_bg" } },
-          lib.component.tabline_tabpages()
-        },
+        -- tabline = { -- UI upper bar
+          -- lib.component.tabline_conditional_padding(),
+          -- lib.component.tabline_buffers(),
+          -- lib.component.fill { hl = { bg = "tabline_bg" } },
+          -- lib.component.tabline_tabpages()
+ --       },
         winbar = { -- UI breadcrumbs bar
           init = function(self) self.bufnr = vim.api.nvim_get_current_buf() end,
           fallthrough = false,
@@ -361,21 +384,21 @@ return {
             condition = function() return not lib.condition.is_active() end,
             {
               lib.component.neotree(),
-              lib.component.compiler_play(),
-              lib.component.fill(),
-              lib.component.compiler_redo(),
-              lib.component.aerial(),
+              -- lib.component.compiler_play(),
+              -- lib.component.fill(),
+              -- lib.component.compiler_redo(),
+              -- lib.component.aerial(),
             },
           },
           -- Regular winbar
           {
-            lib.component.neotree(),
-            lib.component.compiler_play(),
-            lib.component.fill(),
+            -- lib.component.neotree(),
+            -- lib.component.compiler_play(),
+            -- lib.component.fill(),
             lib.component.breadcrumbs(),
-            lib.component.fill(),
-            lib.component.compiler_redo(),
-            lib.component.aerial(),
+            -- lib.component.fill(),
+            -- lib.component.compiler_redo(),
+            -- lib.component.aerial(),
           }
         },
         statuscolumn = { -- UI left column
@@ -389,16 +412,16 @@ return {
           lib.component.mode(),
           lib.component.git_branch(),
           lib.component.file_info(),
-          lib.component.git_diff(),
+          -- lib.component.git_diff(),
           lib.component.diagnostics(),
-          lib.component.fill(),
-          lib.component.cmd_info(),
+          -- lib.component.fill(),
+          -- lib.component.cmd_info(),
           lib.component.fill(),
           lib.component.lsp(),
-          lib.component.compiler_state(),
-          lib.component.virtual_env(),
+          -- lib.component.compiler_state(),
+          -- lib.component.virtual_env(),
           lib.component.nav(),
-          lib.component.mode { surround = { separator = "right" } },
+          -- lib.component.mode { surround = { separator = "right" } },
         },
       }
     end,
@@ -525,38 +548,54 @@ return {
   --  We don't use it for:
   --  * LSP status: We use a heirline component for this.
   --  * Search results: We use a heirline component for this.
+  -- lazy.nvim
   {
     "folke/noice.nvim",
-    event = "User BaseDefered",
-    opts = function()
-      local enable_conceal = false          -- Hide command text if true
-      return {
-        presets = { bottom_search = true }, -- The kind of popup used for /
-        cmdline = {
-          view = "cmdline",                 -- The kind of popup used for :
-          format = {
-            cmdline = { conceal = enable_conceal },
-            search_down = { conceal = enable_conceal },
-            search_up = { conceal = enable_conceal },
-            filter = { conceal = enable_conceal },
-            lua = { conceal = enable_conceal },
-            help = { conceal = enable_conceal },
-            input = { conceal = enable_conceal },
-          }
-        },
-
-        -- Disable every other noice feature
-        messages = { enabled = false },
-        lsp = {
-          hover = { enabled = false },
-          signature = { enabled = false },
-          progress = { enabled = false },
-          message = { enabled = false },
-          smart_move = { enabled = false },
-        },
+    event = "VeryLazy",
+    opts = {
+      -- add any options here
+    },
+    dependencies = {
+      -- if you lazy-load any plugin below, make sure to add proper `module="..."` entries
+      "MunifTanjim/nui.nvim",
+      -- OPTIONAL:
+      --   `nvim-notify` is only needed, if you want to use the notification view.
+      --   If not available, we use `mini` as the fallback
+      "rcarriga/nvim-notify",
       }
-    end
   },
+  -- {
+  --   "folke/noice.nvim",
+  --   event = "User BaseDefered",
+  --   opts = function()
+  --     local enable_conceal = false          -- Hide command text if true
+  --     return {
+  --       presets = { bottom_search = true }, -- The kind of popup used for /
+  --       cmdline = {
+  --         view = "cmdline_popup",                 -- The kind of popup used for :
+  --         format = {
+  --           cmdline = { conceal = enable_conceal },
+  --           search_down = { conceal = enable_conceal },
+  --           search_up = { conceal = enable_conceal },
+  --           filter = { conceal = enable_conceal },
+  --           lua = { conceal = enable_conceal },
+  --           help = { conceal = enable_conceal },
+  --           input = { conceal = enable_conceal },
+  --         }
+  --       },
+  --
+  --       -- Disable every other noice feature
+  --       messages = { enabled = false },
+  --       lsp = {
+  --         hover = { enabled = false },
+  --         signature = { enabled = false },
+  --         progress = { enabled = false },
+  --         message = { enabled = false },
+  --         smart_move = { enabled = false },
+  --       },
+  --     }
+  --   end
+  -- },
 
   --  UI icons [icons - ui]
   --  https://github.com/nvim-tree/nvim-web-devicons
@@ -608,71 +647,71 @@ return {
 
   --  nvim-scrollbar [scrollbar]
   --  https://github.com/petertriho/nvim-scrollbar
-  {
-    "petertriho/nvim-scrollbar",
-    event = "User BaseFile",
-    opts = {
-      handlers = {
-        gitsigns = true, -- gitsigns integration (display hunks)
-        ale = true,      -- lsp integration (display errors/warnings)
-        search = false,  -- hlslens integration (display search result)
-      },
-      excluded_filetypes = {
-        "cmp_docs",
-        "cmp_menu",
-        "noice",
-        "prompt",
-        "TelescopePrompt",
-        "alpha"
-      },
-    },
-  },
+  -- {
+  --   "petertriho/nvim-scrollbar",
+  --   event = "User BaseFile",
+  --   opts = {
+  --     handlers = {
+  --       gitsigns = true, -- gitsigns integration (display hunks)
+  --       ale = true,      -- lsp integration (display errors/warnings)
+  --       search = false,  -- hlslens integration (display search result)
+  --     },
+  --     excluded_filetypes = {
+  --       "cmp_docs",
+  --       "cmp_menu",
+  --       "noice",
+  --       "prompt",
+  --       "TelescopePrompt",
+  --       "alpha"
+  --     },
+  --   },
+  -- },
 
   --  mini.animate [animations]
   --  https://github.com/echasnovski/mini.animate
   --  HINT: if one of your personal keymappings fail due to mini.animate, try to
   --        disable it during the keybinding using vim.g.minianimate_disable = true
-  {
-    "echasnovski/mini.animate",
-    event = "User BaseFile",
-    enabled = not is_android,
-    opts = function()
-      -- don't use animate when scrolling with the mouse
-      local mouse_scrolled = false
-      for _, scroll in ipairs { "Up", "Down" } do
-        local key = "<ScrollWheel" .. scroll .. ">"
-        vim.keymap.set({ "", "i" }, key, function()
-          mouse_scrolled = true
-          return key
-        end, { expr = true })
-      end
-
-      local animate = require("mini.animate")
-      return {
-        open = { enable = false }, -- true causes issues on nvim-spectre
-        resize = {
-          timing = animate.gen_timing.linear { duration = 33, unit = "total" },
-        },
-        scroll = {
-          timing = animate.gen_timing.linear { duration = 50, unit = "total" },
-          subscroll = animate.gen_subscroll.equal {
-            predicate = function(total_scroll)
-              if mouse_scrolled then
-                mouse_scrolled = false
-                return false
-              end
-              return total_scroll > 1
-            end,
-          },
-        },
-        cursor = {
-          enable = false, -- We don't want cursor ghosting
-          timing = animate.gen_timing.linear { duration = 26, unit = "total" },
-        },
-      }
-    end,
-  },
-
+  -- {
+  --   "echasnovski/mini.animate",
+  --   event = "User BaseFile",
+  --   enabled = not is_android,
+  --   opts = function()
+  --     -- don't use animate when scrolling with the mouse
+  --     local mouse_scrolled = false
+  --     for _, scroll in ipairs { "Up", "Down" } do
+  --       local key = "<ScrollWheel" .. scroll .. ">"
+  --       vim.keymap.set({ "", "i" }, key, function()
+  --         mouse_scrolled = true
+  --         return key
+  --       end, { expr = true })
+  --     end
+  --
+  --     local animate = require("mini.animate")
+  --     return {
+  --       open = { enable = false }, -- true causes issues on nvim-spectre
+  --       resize = {
+  --         timing = animate.gen_timing.linear { duration = 33, unit = "total" },
+  --       },
+  --       scroll = {
+  --         timing = animate.gen_timing.linear { duration = 50, unit = "total" },
+  --         subscroll = animate.gen_subscroll.equal {
+  --           predicate = function(total_scroll)
+  --             if mouse_scrolled then
+  --               mouse_scrolled = false
+  --               return false
+  --             end
+  --             return total_scroll > 1
+  --           end,
+  --         },
+  --       },
+  --       cursor = {
+  --         enable = false, -- We don't want cursor ghosting
+  --         timing = animate.gen_timing.linear { duration = 26, unit = "total" },
+  --       },
+  --     }
+  --   end,
+  -- },
+  --
   --  highlight-undo
   --  https://github.com/tzachar/highlight-undo.nvim
   --  This plugin only flases on undo/redo.
@@ -702,11 +741,20 @@ return {
   --  https://github.com/folke/which-key.nvim
   {
     "folke/which-key.nvim",
-    event = "User BaseDefered",
+    lazy = false,
+    priority = 1000,
 
     opts_extend = { "disable.ft", "disable.bt" },
     opts = {
-      preset = "classic", -- "classic", "modern", or "helix"
+      -- preset = "modern", -- "classic", "modern", or "helix"
+      preset = "classic",
+      -- win = {
+      -- padding = { 0, 0 }, -- facultatif : réduire les bords
+    -- },
+    -- layout = {
+    --   width = { min = 1}, -- adapte à la taille de l'écran
+    --   spacing = 8,
+    -- },
       icons = {
         group = (vim.g.fallback_icons_enabled and "+") or "",
         rules = false,

@@ -345,11 +345,11 @@ return {
   --  https://github.com/zbirenbaum/copilot.lua
   --  As alternative to chatgpt, you can use copilot uncommenting this.
   --  Then you must run :Copilot auth
-  {
-    "zbirenbaum/copilot.lua",
-    event = "User BaseFile",
-    opts = {},
-  },
+  -- {
+  --   "zbirenbaum/copilot.lua",
+  --   event = "User BaseFile",
+  --   opts = {},
+  -- },
 
   -- [guess-indent]
   -- https://github.com/NMAC427/guess-indent.nvim

@@ -134,30 +134,119 @@ return {
   --  render-markdown.nvim [normal mode markdown]
   --  https://github.com/MeanderingProgrammer/render-markdown.nvim
   --  While on normal mode, markdown files will display highlights.
-  {
-    'MeanderingProgrammer/render-markdown.nvim',
-    ft = { "markdown" },
-    dependencies = { 'nvim-treesitter/nvim-treesitter' },
-    opts = {
+{
+  'MeanderingProgrammer/render-markdown.nvim',
+  ft = { "markdown", "codecompanion" },
+  dependencies = { 'nvim-treesitter/nvim-treesitter' },
+  config = function()
+    -- Couleur personnalisée pour les `#` des titres Markdown
+    vim.api.nvim_set_hl(0, 'markdown_heading_marker', { fg = '#ffaa00', bold = true })
+
+    require("render-markdown").setup({
+      file_types = { 'markdown', 'codecompanion' },
+      render_modes = true, -- Active le rendu dans tous les modes
+
       heading = {
-        sign = false,
-        icons = require("base.utils").get_icon("RenderMarkdown"),
-        width = "block",
+        enabled = true,
+        render_modes = false,
+        atx = true,
+        setext = true,
+        sign = true,
+        icons = { '󰲡 ', '󰲣 ', '󰲥 ', '󰲧 ', '󰲩 ', '󰲫 ' },
+        position = 'overlay',
+        signs = { '󰫎 ' },
+        width = 'full',
+        left_margin = 0,
+        left_pad = 0,
+        right_pad = 0,
+        min_width = 0,
+        border = false,
+        border_virtual = false,
+        border_prefix = false,
+        above = '▄',
+        below = '▀',
+        backgrounds = {
+          'RenderMarkdownH1Bg',
+          'RenderMarkdownH2Bg',
+          'RenderMarkdownH3Bg',
+          'RenderMarkdownH4Bg',
+          'RenderMarkdownH5Bg',
+          'RenderMarkdownH6Bg',
+        },
+        foregrounds = {
+          'RenderMarkdownH1',
+          'RenderMarkdownH2',
+          'RenderMarkdownH3',
+          'RenderMarkdownH4',
+          'RenderMarkdownH5',
+          'RenderMarkdownH6',
+        },
+        custom = {},
       },
+
       code = {
+        enabled = true,
+        render_modes = true,
         sign = false,
-        width = 'block', -- use 'language' if colorcolumn is important for you.
-        right_pad = 1,
+        style = 'full',
+        position = 'left',
+        language_pad = 0,
+        language_icon = true,
+        language_name = true,
+        disable_background = { 'diff' },
+        width = 'full',
+        left_margin = 0,
+        left_pad = 0,
+        right_pad = 0,
+        min_width = 0,
+        border = 'hide',
+        above = '▄',
+        below = '▀',
+        inline_left = '',
+        inline_right = '',
+        inline_pad = 0,
+        highlight = 'RenderMarkdownCode',
+        highlight_language = nil,
+        highlight_border = 'RenderMarkdownCodeBorder',
+        highlight_fallback = 'RenderMarkdownCodeFallback',
+        highlight_inline = 'RenderMarkdownCodeInline',
       },
+
+      quote = {
+        enabled = true,
+        render_modes = true,
+        icon = '▋',
+        repeat_linebreak = false,
+        highlight = {
+          'RenderMarkdownQuote1',
+          'RenderMarkdownQuote2',
+          'RenderMarkdownQuote3',
+          'RenderMarkdownQuote4',
+          'RenderMarkdownQuote5',
+          'RenderMarkdownQuote6',
+        },
+      },
+
+      indent = {
+        enabled = true,
+        render_modes = false,
+        per_level = 2,
+        skip_level = 1,
+        skip_heading = false,
+        icon = '▎',
+        highlight = 'RenderMarkdownIndent',
+      },
+
       dash = {
-        width = 79
+        width = 79,
       },
+
       pipe_table = {
         style = 'full', -- use 'normal' if colorcolumn is important for you.
       },
-    },
-  },
-
+    })
+  end,
+},
   --  [hex colors]
   --  https://github.com/brenoprata10/nvim-highlight-colors
   {
@@ -174,34 +263,34 @@ return {
   -- Reliable jdtls support. Must go before mason-lspconfig and lsp-config.
   -- NOTE: Let's use our fork until they merge pull request
   --       https://github.com/nvim-java/nvim-java/pull/376
-  {
-    "zeioth/nvim-java",
-    ft = { "java" },
-    dependencies = {
-      "MunifTanjim/nui.nvim",
-      "neovim/nvim-lspconfig",
-      "mfussenegger/nvim-dap",
-      "mason-org/mason.nvim",
-    },
-    opts = {
-      notifications = {
-        dap = false,
-      },
-      -- NOTE: One of these files must be in your project root directory.
-      --       Otherwise the debugger will end in the wrong directory and fail.
-      root_markers = {
-        'settings.gradle',
-        'settings.gradle.kts',
-        'pom.xml',
-        'build.gradle',
-        'mvnw',
-        'gradlew',
-        'build.gradle',
-        'build.gradle.kts',
-        '.git',
-      },
-    },
-  },
+  -- {
+  --   "zeioth/nvim-java",
+  --   ft = { "java" },
+  --   dependencies = {
+  --     "MunifTanjim/nui.nvim",
+  --     "neovim/nvim-lspconfig",
+  --     "mfussenegger/nvim-dap",
+  --     "mason-org/mason.nvim",
+  --   },
+  --   opts = {
+  --     notifications = {
+  --       dap = false,
+  --     },
+  --     -- NOTE: One of these files must be in your project root directory.
+  --     --       Otherwise the debugger will end in the wrong directory and fail.
+  --     root_markers = {
+  --       'settings.gradle',
+  --       'settings.gradle.kts',
+  --       'pom.xml',
+  --       'build.gradle',
+  --       'mvnw',
+  --       'gradlew',
+  --       'build.gradle',
+  --       'build.gradle.kts',
+  --       '.git',
+  --     },
+  --   },
+  -- },
 
   --  nvim-lspconfig [lsp configs]
   --  https://github.com/neovim/nvim-lspconfig
@@ -306,7 +395,7 @@ return {
       },
     },
   },
-
+  --
   -- none-ls [lsp code formatting]
   -- https://github.com/nvimtools/none-ls.nvim
   {
@@ -325,7 +414,7 @@ return {
       return { on_attach = utils_lsp.apply_user_lsp_mappings }
     end
   },
-
+  --
   --  garbage-day.nvim [lsp garbage collector]
   --  https://github.com/zeioth/garbage-day.nvim
   {

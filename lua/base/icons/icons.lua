@@ -123,6 +123,9 @@ return {
   GreeterProjects = "💼",
   GreeterPlug = "",
 
+  -- Beta
+
+
   -- Mason
   MasonInstalled = "✓",
   MasonUninstalled = "✗",

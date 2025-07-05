@@ -285,7 +285,7 @@ function M.toggle_statusline()
   utils.notify(string.format("statusline %s", status))
 end
 
---- Toggle showtabline=2|0
+-- - Toggle showtabline=2|0
 function M.toggle_tabline()
   vim.opt.showtabline = vim.opt.showtabline:get() == 0 and 2 or 0
   utils.notify(string.format("tabline %s", bool2str(vim.opt.showtabline:get() == 2)))

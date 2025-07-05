@@ -438,7 +438,7 @@ return {
           end,
         },
         window = {
-          width = 30,
+          width = 45,
           mappings = {
             ["<space>"] = false,
             ["<S-CR>"] = "system_open",
@@ -457,6 +457,11 @@ return {
           },
           hijack_netrw_behavior = "open_current",
           use_libuv_file_watcher = true,
+          filtered_items = {
+              visible = true, -- <== VOIR les fichiers cachés
+              hide_dotfiles = false, -- <== Affiche les fichiers qui commencent par .
+              hide_gitignored = false, -- <== Affiche les fichiers ignorés par git
+            },
         },
         event_handlers = {
           {
@@ -702,5 +707,63 @@ return {
         channel = "stable" -- stable/nightly
     }
   },
+{
+    "rachartier/tiny-inline-diagnostic.nvim",
+    event = "VeryLazy", -- Or `LspAttach`
+    priority = 1000, -- needs to be loaded in first
+    config = function()
+        require('tiny-inline-diagnostic').setup(
+        {
+          preset = "classic",
+          transparent_bg = true
+        })
 
+    end
+},
+
+{
+  "mfussenegger/nvim-jdtls",
+  ft = { "java" },
+  dependencies = {
+    "neovim/nvim-lspconfig",
+    "williamboman/mason.nvim",
+  },
+},
+
+{
+  "stevearc/conform.nvim",
+  event = { "BufReadPre", "BufNewFile" },
+  config = function()
+    require("conform").setup({
+      format_on_save = {
+        lsp_fallback = true,
+        timeout_ms = 500,
+      },
+      formatters_by_ft = {
+        lua = { "stylua" },
+        python = { "black" },
+        javascript = { "prettier" },
+        typescript = { "prettier" },
+        typescriptreact = { "prettier" },
+        javascriptreact = { "prettier" },
+        json = { "prettier" },
+        html = { "prettier" },
+        css = { "prettier" },
+        scss = { "prettier" },
+        go = { "gofmt" },
+        rust = { "rustfmt" },
+        sh = { "shfmt" },
+        yaml = { "prettier" },
+        markdown = { "prettier" },
+        toml = { "taplo" },
+        vue = { "prettier" },
+        php = { "php-cs-fixer" },
+        java = { "google-java-format" },
+        c = { "clang-format" },
+        cpp = { "clang-format" },
+        xml = { "xmlformat" },
+      },
+    })
+  end,
+},
 } -- end of return

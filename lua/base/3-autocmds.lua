@@ -258,6 +258,15 @@ cmd("TestNodejsE2e", function()
   vim.cmd(":TermExec cmd='npm run e2e'") -- Conventional way to call e2e in nodejs (requires ToggleTerm)
 end, { desc = "Run e2e tests for the current nodejs project" })
 
+-- 11. Java JDTLS setup
+autocmd("FileType", {
+  desc = "Start jdtls for Java files",
+  pattern = "java",
+  callback = function()
+    require("base.utils.jdtls").setup()
+  end,
+})
+
 -- Extra commands
 ----------------------------------------------
 
