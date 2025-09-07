@@ -21,20 +21,17 @@
 --       -> which-key                   [on-screen keybinding]
 
 local utils = require("base.utils")
-local is_windows = vim.fn.has('win32') == 1         -- true if on windows
-local is_android = vim.fn.isdirectory('/data') == 1 -- true if on android
+local is_windows = vim.fn.has("win32") == 1 -- true if on windows
+local is_android = vim.fn.isdirectory("/data") == 1 -- true if on android
 
 return {
   -- gruvbox [theme]
-{
-  "ellisonleao/gruvbox.nvim",
-  lazy = false,
-  priority = 1000,
-  config = function()
-    vim.cmd.colorscheme("gruvbox")
-  end
-},
-
+  {
+    "ellisonleao/gruvbox.nvim",
+    lazy = false,
+    priority = 1000,
+    config = function() vim.cmd.colorscheme("gruvbox") end,
+  },
 
   --  tokyonight [theme]
   --  https://github.com/folke/tokyonight.nvim
@@ -70,64 +67,6 @@ return {
     opts = function()
       local dashboard = require("alpha.themes.dashboard")
 
-      -- Header
-      -- dashboard.section.header.val = {
-      --   "                                                                     ",
-      --   "       ████ ██████           █████      ██                     ",
-      --   "      ███████████             █████                             ",
-      --   "      █████████ ███████████████████ ███   ███████████   ",
-      --   "     █████████  ███    █████████████ █████ ██████████████   ",
-      --   "    █████████ ██████████ █████████ █████ █████ ████ █████   ",
-      --   "  ███████████ ███    ███ █████████ █████ █████ ████ █████  ",
-      --   " ██████  █████████████████████ ████ █████ █████ ████ ██████ ",
-      -- }
-      -- dashboard.section.header.val = {
-      --   '                                        ▟▙            ',
-      --   '                                        ▝▘            ',
-      --   '██▃▅▇█▆▖  ▗▟████▙▖   ▄████▄   ██▄  ▄██  ██  ▗▟█▆▄▄▆█▙▖',
-      --   '██▛▔ ▝██  ██▄▄▄▄██  ██▛▔▔▜██  ▝██  ██▘  ██  ██▛▜██▛▜██',
-      --   '██    ██  ██▀▀▀▀▀▘  ██▖  ▗██   ▜█▙▟█▛   ██  ██  ██  ██',
-      --   '██    ██  ▜█▙▄▄▄▟▊  ▀██▙▟██▀   ▝████▘   ██  ██  ██  ██',
-      --   '▀▀    ▀▀   ▝▀▀▀▀▀     ▀▀▀▀       ▀▀     ▀▀  ▀▀  ▀▀  ▀▀',
-      -- }
-      -- dashboard.section.header.val = {
-      --   '                    ▟▙            ',
-      --   '                    ▝▘            ',
-      --   '██▃▅▇█▆▖  ██▄  ▄██  ██  ▗▟█▆▄▄▆█▙▖',
-      --   '██▛▔ ▝██  ▝██  ██▘  ██  ██▛▜██▛▜██',
-      --   '██    ██   ▜█▙▟█▛   ██  ██  ██  ██',
-      --   '██    ██   ▝████▘   ██  ██  ██  ██',
-      --   '▀▀    ▀▀     ▀▀     ▀▀  ▀▀  ▀▀  ▀▀',
-      -- }
-      -- Generated with https://www.fancytextpro.com/BigTextGenerator/Larry3D
-      -- dashboard.section.header.val = {
-      --   [[ __  __                  __  __                     ]],
-      --   [[/\ \/\ \                /\ \/\ \  __                ]],
-      --   [[\ \ `\\ \     __    ___ \ \ \ \ \/\_\    ___ ___    ]],
-      --   [[ \ \ , ` \  /'__`\ / __`\\ \ \ \ \/\ \ /' __` __`\  ]],
-      --   [[  \ \ \`\ \/\  __//\ \L\ \\ \ \_/ \ \ \/\ \/\ \/\ \ ]],
-      --   [[   \ \_\ \_\ \____\ \____/ \ `\___/\ \_\ \_\ \_\ \_\]],
-      --   [[    \/_/\/_/\/____/\/___/   `\/__/  \/_/\/_/\/_/\/_/]],
-      -- }
-      --  dashboard.section.header.val = {
-      --   '                                                     ',
-      --   '  ███╗   ██╗███████╗ ██████╗ ██╗   ██╗██╗███╗   ███╗ ',
-      --   '  ████╗  ██║██╔════╝██╔═══██╗██║   ██║██║████╗ ████║ ',
-      --   '  ██╔██╗ ██║█████╗  ██║   ██║██║   ██║██║██╔████╔██║ ',
-      --   '  ██║╚██╗██║██╔══╝  ██║   ██║╚██╗ ██╔╝██║██║╚██╔╝██║ ',
-      --   '  ██║ ╚████║███████╗╚██████╔╝ ╚████╔╝ ██║██║ ╚═╝ ██║ ',
-      --   '  ╚═╝  ╚═══╝╚══════╝ ╚═════╝   ╚═══╝  ╚═╝╚═╝     ╚═╝ ',
-      --   '                                                     ',
-      -- }
-      -- dashboard.section.header.val = {
-      --   [[                __                ]],
-      --   [[  ___   __  __ /\_\    ___ ___    ]],
-      --   [[/' _ `\/\ \/\ \\/\ \ /' __` __`\  ]],
-      --   [[/\ \/\ \ \ \_/ |\ \ \/\ \/\ \/\ \ ]],
-      --   [[\ \_\ \_\ \___/  \ \_\ \_\ \_\ \_\]],
-      --   [[ \/_/\/_/\/__/    \/_/\/_/\/_/\/_/]],
-      -- }
-
       if is_android then
         dashboard.section.header.val = {
           [[         __                ]],
@@ -138,54 +77,90 @@ return {
           [[  \/__/    \/_/\/_/\/_/\/_/]],
         }
       else
-      dashboard.section.header.val = {
-        "                                                                     ",
-        "       ████ ██████           █████      ██                     ",
-        "      ███████████             █████                             ",
-        "      █████████ ███████████████████ ███   ███████████   ",
-        "     █████████  ███    █████████████ █████ ██████████████   ",
-        "    █████████ ██████████ █████████ █████ █████ ████ █████   ",
-        "  ███████████ ███    ███ █████████ █████ █████ ████ █████  ",
-        " ██████  █████████████████████ ████ █████ █████ ████ ██████ ",
-      }
+        dashboard.section.header.val = {
+          "                                                                     ",
+          "       ████ ██████           █████      ██                     ",
+          "      ███████████             █████                             ",
+          "      █████████ ███████████████████ ███   ███████████   ",
+          "     █████████  ███    █████████████ █████ ██████████████   ",
+          "    █████████ ██████████ █████████ █████ █████ ████ █████   ",
+          "  ███████████ ███    ███ █████████ █████ █████ ████ █████  ",
+          " ██████  █████████████████████ ████ █████ █████ ████ ██████ ",
+        }
       end
-
 
       local get_icon = require("base.utils").get_icon
 
+      function _G.find_config_files()
+        local cwd = vim.fn.stdpath("config") .. "/.."
+        local search_dirs = { vim.fn.stdpath("config") }
+        if #search_dirs == 1 then cwd = search_dirs[1] end
+        require("telescope.builtin").find_files({
+          prompt_title = "Config Files",
+          search_dirs = search_dirs,
+          cwd = cwd,
+          follow = true,
+        })
+      end
+
       dashboard.section.header.opts.hl = "DashboardHeader"
-      -- vim.cmd("highlight DashboardHeader guifg=#F7778F")
+      vim.cmd("highlight DashboardHeader guifg=#fb4934")
 
       -- If yazi is not installed, don't show the button.
       local is_yazi_installed = vim.fn.executable("ya") == 1
-      local yazi_button = dashboard.button("r", get_icon("GreeterYazi") .. " Yazi", "<cmd>Yazi<CR>")
+      local yazi_button = dashboard.button(
+        "r",
+        get_icon("GreeterYazi") .. " Yazi",
+        "<cmd>Yazi<CR>"
+      )
+
       if not is_yazi_installed then yazi_button = nil end
 
       -- Buttons
       dashboard.section.buttons.val = {
-        dashboard.button("n",
-          get_icon("GreeterNew") .. " New",
-          "<cmd>ene<CR>"),
-        dashboard.button("e",
-          get_icon("GreeterRecent") .. " Recent  ",
-          "<cmd>Telescope oldfiles<CR>"),
-        yazi_button,
-        dashboard.button("s",
-          get_icon("GreeterSessions") .. " Sessions",
+        dashboard.button(
+          "n",
+          get_icon("GreeterNew") .. "   New file",
+          "<cmd>ene<CR>"
+        ),
+        dashboard.button(
+          "e",
+          get_icon("GreeterRecent") .. "   Recent  ",
+          "<cmd>Telescope oldfiles<CR>"
+        ),
+        -- yazi_button,
+        dashboard.button(
+          "f",
+          get_icon("GreeterFindFile") .. "   Find File",
+          "<cmd>Telescope find_files<CR>"
+        ),
+        dashboard.button(
+          "s",
+          get_icon("GreeterSessions") .. "   Sessions",
           "<cmd>SessionManager! load_session<CR>"
         ),
-        dashboard.button("p",
-          get_icon("GreeterProjects") .. " Projects",
-          "<cmd>Telescope projects<CR>"),
-        dashboard.button("", ""),
-        dashboard.button("q", "   Quit", "<cmd>exit<CR>"),
+        dashboard.button(
+          "p",
+          get_icon("GreeterProjects") .. "   Projects",
+          "<cmd>Telescope projects<CR>"
+        ),
+        dashboard.button(
+          "c",
+          get_icon("GreeterConfigurationFile") .. "   Configuration",
+          "<cmd>lua _G.find_config_files()<CR>"
+        ),
+        dashboard.button(
+          "q",
+          get_icon("GreeterQuit") .. "   Quit",
+          "<cmd>exit<CR>"
+        ),
       }
 
       -- Vertical margins
       dashboard.config.layout[1].val =
-          vim.fn.max { 2, vim.fn.floor(vim.fn.winheight(0) * 0.10) } -- Above header
+        vim.fn.max({ 2, vim.fn.floor(vim.fn.winheight(0) * 0.10) }) -- Above header
       dashboard.config.layout[3].val =
-          vim.fn.max { 2, vim.fn.floor(vim.fn.winheight(0) * 0.10) } -- Above buttons
+        vim.fn.max({ 2, vim.fn.floor(vim.fn.winheight(0) * 0.10) }) -- Above buttons
 
       -- Disable autocmd and return
       dashboard.config.opts.noautocmd = true
@@ -199,16 +174,22 @@ return {
         desc = "Add Alpha dashboard footer",
         once = true,
         callback = function()
-          local  footer_icon = require("base.utils").get_icon("GreeterPlug")
+          local footer_icon = require("base.utils").get_icon("GreeterPlug")
           local stats = require("lazy").stats()
           stats.real_cputime = not is_windows
           local ms = math.floor(stats.startuptime * 100 + 0.5) / 100
           opts.section.footer.val = {
-            " ",
-            " ",
-            " ",
-            "Loaded " .. stats.loaded .. " plugins " .. footer_icon .. " in " .. ms .. "ms",
-            ".............................",
+            -- " ",
+            -- " ",
+            -- " ",
+            -- "Loaded "
+            --   .. stats.loaded
+            --   .. " plugins "
+            --   .. footer_icon
+            --   .. " in "
+            --   .. ms
+            --   .. "ms",
+            -- ".............................",
           }
           opts.section.footer.opts.hl = "DashboardFooter"
           vim.cmd("highlight DashboardFooter guifg=#D29B68")
@@ -220,61 +201,61 @@ return {
 
   --  [notifications]
   --  https://github.com/rcarriga/nvim-notify
-{
-  "rcarriga/nvim-notify",
-  event = "User BaseDefered",
-  opts = function()
-    local fps
-    if is_android then fps = 30 else fps = 144 end
+  {
+    "rcarriga/nvim-notify",
+    event = "User BaseDefered",
+    opts = function()
+      local fps
+      if is_android then
+        fps = 30
+      else
+        fps = 144
+      end
 
-    return {
-      fps = fps,
-      timeout = 1500,
-      level = 2,
-      top_down = true,
-      background_colour = "NotifyBackground",
-      render = "minimal",
-      stages = "static",
-      icons = {
-        DEBUG = "",
-        ERROR = "",
-        INFO = "",
-        TRACE = "✎",
-        WARN = ""
-      },
-      time_formats = {
-        notification = "%T",
-        notification_history = "%FT%T"
-      },
-      max_height = function()
-        return math.floor(vim.o.lines * 0.75)
-      end,
-      max_width = function()
-        return math.floor(vim.o.columns * 0.75)
-      end,
-      on_open = function(win)
-        vim.api.nvim_win_set_config(win, { zindex = 175 })
-        if not vim.g.notifications_enabled then
-          vim.api.nvim_win_close(win, true)
-        end
-        if not package.loaded["nvim-treesitter"] then
-          pcall(require, "nvim-treesitter")
-        end
-        vim.wo[win].conceallevel = 3
-        local buf = vim.api.nvim_win_get_buf(win)
-        if not pcall(vim.treesitter.start, buf, "markdown") then
-          vim.bo[buf].syntax = "markdown"
-        end
-        vim.wo[win].spell = false
-      end,
-    }
-  end,
-  config = function(_, opts)
-    local notify = require("notify")
-    notify.setup(opts)
-    vim.notify = notify
-  end,
-},
+      return {
+        fps = fps,
+        timeout = 1500,
+        level = 2,
+        top_down = true,
+        background_colour = "NotifyBackground",
+        render = "minimal",
+        stages = "static",
+        icons = {
+          DEBUG = "",
+          ERROR = "",
+          INFO = "",
+          TRACE = "✎",
+          WARN = "",
+        },
+        time_formats = {
+          notification = "%T",
+          notification_history = "%FT%T",
+        },
+        max_height = function() return math.floor(vim.o.lines * 0.75) end,
+        max_width = function() return math.floor(vim.o.columns * 0.75) end,
+        on_open = function(win)
+          vim.api.nvim_win_set_config(win, { zindex = 175 })
+          if not vim.g.notifications_enabled then
+            vim.api.nvim_win_close(win, true)
+          end
+          if not package.loaded["nvim-treesitter"] then
+            pcall(require, "nvim-treesitter")
+          end
+          vim.wo[win].conceallevel = 3
+          local buf = vim.api.nvim_win_get_buf(win)
+          if not pcall(vim.treesitter.start, buf, "markdown") then
+            vim.bo[buf].syntax = "markdown"
+          end
+          vim.wo[win].spell = false
+        end,
+      }
+    end,
+    config = function(_, opts)
+      local notify = require("notify")
+      notify.setup(opts)
+      vim.notify = notify
+    end,
+  },
 
   --  mini.indentscope [guides]
   --  https://github.com/echasnovski/mini.indentscope
@@ -308,14 +289,14 @@ return {
             "toggleterm",
             "Trouble",
             "calltree",
-            "coverage"
+            "coverage",
           }
           if vim.tbl_contains(ignored_filetypes, vim.bo.filetype) then
             vim.b.miniindentscope_disable = true
           end
         end,
       })
-    end
+    end,
   },
 
   -- heirline-components.nvim [ui components]
@@ -337,7 +318,7 @@ return {
       return {
         icons = get_icons(),
       }
-    end
+    end,
   },
 
   --  heirline [ui components]
@@ -354,28 +335,29 @@ return {
       return {
         opts = {
           disable_winbar_cb = function(args) -- We do this to avoid showing it on the greeter.
-            local is_disabled = not require("heirline-components.buffer").is_valid(args.buf) or
-                lib.condition.buffer_matches({
-                  buftype = { "terminal", "prompt", "nofile", "help", "quickfix" },
-                  filetype = {
-                    "NvimTree",
-                    "neo%-tree",
-                    "dashboard",
-                    "Outline",
-                    "aerial",
-                    "rnvimr",
-                    "yazi"
-                  },
-                }, args.buf)
+            local is_disabled = not require("heirline-components.buffer").is_valid(
+              args.buf
+            ) or lib.condition.buffer_matches({
+              buftype = { "terminal", "prompt", "nofile", "help", "quickfix" },
+              filetype = {
+                "NvimTree",
+                "neo%-tree",
+                "dashboard",
+                "Outline",
+                "aerial",
+                "rnvimr",
+                "yazi",
+              },
+            }, args.buf)
             return is_disabled
           end,
         },
         -- tabline = { -- UI upper bar
-          -- lib.component.tabline_conditional_padding(),
-          -- lib.component.tabline_buffers(),
-          -- lib.component.fill { hl = { bg = "tabline_bg" } },
-          -- lib.component.tabline_tabpages()
- --       },
+        -- lib.component.tabline_conditional_padding(),
+        -- lib.component.tabline_buffers(),
+        -- lib.component.fill { hl = { bg = "tabline_bg" } },
+        -- lib.component.tabline_tabpages()
+        --       },
         winbar = { -- UI breadcrumbs bar
           init = function(self) self.bufnr = vim.api.nvim_get_current_buf() end,
           fallthrough = false,
@@ -399,7 +381,7 @@ return {
             -- lib.component.fill(),
             -- lib.component.compiler_redo(),
             -- lib.component.aerial(),
-          }
+          },
         },
         statuscolumn = { -- UI left column
           init = function(self) self.bufnr = vim.api.nvim_get_current_buf() end,
@@ -427,7 +409,7 @@ return {
     end,
     config = function(_, opts)
       local heirline = require("heirline")
-      local heirline_components = require "heirline-components.all"
+      local heirline_components = require("heirline-components.all")
 
       -- Setup
       heirline_components.init.subscribe_to_events()
@@ -515,12 +497,24 @@ return {
       telescope.setup(opts)
       -- Here we define the Telescope extension for all plugins.
       -- If you delete a plugin, you can also delete its Telescope extension.
-      if utils.is_available("nvim-notify") then telescope.load_extension("notify") end
-      if utils.is_available("telescope-fzf-native.nvim") then telescope.load_extension("fzf") end
-      if utils.is_available("telescope-undo.nvim") then telescope.load_extension("undo") end
-      if utils.is_available("project.nvim") then telescope.load_extension("projects") end
-      if utils.is_available("LuaSnip") then telescope.load_extension("luasnip") end
-      if utils.is_available("aerial.nvim") then telescope.load_extension("aerial") end
+      if utils.is_available("nvim-notify") then
+        telescope.load_extension("notify")
+      end
+      if utils.is_available("telescope-fzf-native.nvim") then
+        telescope.load_extension("fzf")
+      end
+      if utils.is_available("telescope-undo.nvim") then
+        telescope.load_extension("undo")
+      end
+      if utils.is_available("project.nvim") then
+        telescope.load_extension("projects")
+      end
+      if utils.is_available("LuaSnip") then
+        telescope.load_extension("luasnip")
+      end
+      if utils.is_available("aerial.nvim") then
+        telescope.load_extension("aerial")
+      end
       if utils.is_available("nvim-neoclip.lua") then
         telescope.load_extension("neoclip")
         telescope.load_extension("macroscope")
@@ -536,7 +530,7 @@ return {
     opts = {
       input = { default_prompt = "➤ " },
       select = { backend = { "telescope", "builtin" } },
-    }
+    },
   },
 
   --  Noice.nvim [better cmd/search line]
@@ -562,7 +556,7 @@ return {
       --   `nvim-notify` is only needed, if you want to use the notification view.
       --   If not available, we use `mini` as the fallback
       "rcarriga/nvim-notify",
-      }
+    },
   },
   -- {
   --   "folke/noice.nvim",
@@ -606,7 +600,7 @@ return {
     opts = {
       override = {
         default_icon = {
-          icon = require("base.utils").get_icon("DefaultFile")
+          icon = require("base.utils").get_icon("DefaultFile"),
         },
       },
     },
@@ -640,9 +634,7 @@ return {
       },
       menu = {},
     },
-    config = function(_, opts)
-      require("lspkind").init(opts)
-    end,
+    config = function(_, opts) require("lspkind").init(opts) end,
   },
 
   --  nvim-scrollbar [scrollbar]
@@ -730,9 +722,7 @@ return {
       vim.api.nvim_create_autocmd("TextYankPost", {
         desc = "Highlight yanked text",
         pattern = "*",
-        callback = function()
-          (vim.hl or vim.highlight).on_yank()
-        end,
+        callback = function() (vim.hl or vim.highlight).on_yank() end,
       })
     end,
   },
@@ -748,13 +738,22 @@ return {
     opts = {
       -- preset = "modern", -- "classic", "modern", or "helix"
       preset = "classic",
-      -- win = {
-      -- padding = { 0, 0 }, -- facultatif : réduire les bords
-    -- },
-    -- layout = {
-    --   width = { min = 1}, -- adapte à la taille de l'écran
-    --   spacing = 8,
-    -- },
+      win = {
+        border = "single",
+        no_overlap = true,
+        padding = { 1, 1 },
+        title = true,
+        title_pos = "center",
+        zindex = 1000,
+        bo = {},
+        wo = {
+          -- winblend = 10,
+        },
+      },
+      -- layout = {
+      --   width = { min = 1}, -- adapte à la taille de l'écran
+      --   spacing = 8,
+      -- },
       icons = {
         group = (vim.g.fallback_icons_enabled and "+") or "",
         rules = false,
@@ -766,6 +765,10 @@ return {
       require("base.utils").which_key_register()
     end,
   },
-
-
+  {
+    "oribarilan/lensline.nvim",
+    tag = "1.1.0", -- or: branch = 'release/1.x' for latest non-breaking updates
+    event = "LspAttach",
+    config = function() require("lensline").setup() end,
+  },
 } -- end of return

@@ -341,3 +341,4 @@ function M.which_key_register()
 end
 
 return M
+

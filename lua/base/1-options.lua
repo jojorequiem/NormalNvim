@@ -22,7 +22,7 @@ vim.opt.fillchars = { eob = " " } -- Disable `~` on nonexistent lines.
 vim.opt.foldenable = true -- Enable fold for nvim-ufo.
 vim.opt.foldlevel = 99 -- set highest foldlevel for nvim-ufo.
 vim.opt.foldlevelstart = 99 -- Start with all code unfolded.
-vim.opt.foldcolumn = "1" -- Show foldcolumn in nvim 0.9+.
+-- vim.opt.foldcolumn = "1" -- Show foldcolumn in nvim 0.9+.
 vim.opt.ignorecase = true -- Case insensitive searching.
 vim.opt.infercase = true -- Infer cases in keyword completion.
 
@@ -60,13 +60,17 @@ vim.opt.scrolloff = 10000 -- Number of lines to leave before/after the cursor wh
 vim.opt.sidescrolloff = 8 -- Same but for side scrolling.
 vim.opt.selection = "old" -- Don't select the newline symbol when using <End> on visual mode.
 
-vim.opt.viewoptions:remove "curdir" -- Disable saving current directory with views.
-vim.opt.shortmess:append { s = true, I = true } -- Disable startup message.
-vim.opt.backspace:append { "nostop" } -- Don't stop backspace at insert.
-vim.opt.diffopt:append { "algorithm:histogram", "linematch:60" } -- Enable linematch diff algorithm
+vim.opt.viewoptions:remove("curdir") -- Disable saving current directory with views.
+vim.opt.shortmess:append({ s = true, I = true }) -- Disable startup message.
+vim.opt.backspace:append({ "nostop" }) -- Don't stop backspace at insert.
+vim.opt.diffopt:append({ "algorithm:histogram", "linematch:60" }) -- Enable linematch diff algorithm
 
-local is_android = vim.fn.isdirectory('/data') == 1
-if is_android then vim.opt.mouse = "v" else vim.opt.mouse = "a" end -- Enable scroll for android
+local is_android = vim.fn.isdirectory("/data") == 1
+if is_android then
+  vim.opt.mouse = "v"
+else
+  vim.opt.mouse = "a"
+end -- Enable scroll for android
 
 -- Globals --------------------------------------------------------------------
 vim.g.mapleader = " " -- Set leader key.
@@ -89,4 +93,3 @@ vim.g.semantic_tokens_enabled = true -- Enable lsp semantic tokens at start.
 vim.g.url_effect_enabled = true -- Highlight URLs with an underline effect.
 vim.o.timeout = true
 vim.o.timeoutlen = 0
-

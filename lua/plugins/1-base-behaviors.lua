@@ -25,7 +25,7 @@
 --       -> hot-reload.nvim        [config reload]
 --       -> distroupdate.nvim      [distro update]
 
-local is_android = vim.fn.isdirectory('/data') == 1 -- true if on android
+local is_android = vim.fn.isdirectory("/data") == 1 -- true if on android
 
 return {
 
@@ -37,8 +37,8 @@ return {
     event = "User BaseDefered",
     cmd = { "Yazi", "Yazi cwd", "Yazi toggle" },
     opts = {
-        open_for_directories = true,
-        floating_window_scaling_factor = (is_android and 1.0) or 0.71
+      open_for_directories = true,
+      floating_window_scaling_factor = (is_android and 1.0) or 0.71,
     },
   },
 
@@ -59,19 +59,19 @@ return {
         "Makefile",
         "package.json",
         ".solution",
-        ".solution.toml"
+        ".solution.toml",
       },
       -- Don't list the next projects
       exclude_dirs = {
-        "~/"
+        "~/",
       },
       silent_chdir = true,
       manual_mode = false,
 
       -- Don't chdir for certain buffers
       exclude_chdir = {
-        filetype = {"", "OverseerList", "alpha"},
-        buftype = {"nofile", "terminal"},
+        filetype = { "", "OverseerList", "alpha" },
+        buftype = { "nofile", "terminal" },
       },
 
       --ignore_lsp = { "lua_ls" },
@@ -100,7 +100,7 @@ return {
   {
     "stevearc/stickybuf.nvim",
     event = "User BaseDefered",
-    config = function() require("stickybuf").setup() end
+    config = function() require("stickybuf").setup() end,
   },
 
   -- mini.bufremove [smart bufdelete]
@@ -108,7 +108,7 @@ return {
   -- Defines what tab to go on :bufdelete
   {
     "echasnovski/mini.bufremove",
-    event = "User BaseFile"
+    event = "User BaseFile",
   },
 
   --  smart-splits [move and resize buffers]
@@ -158,7 +158,7 @@ return {
     event = "User BaseDefered",
     cmd = "SessionManager",
     opts = function()
-      local config = require('session_manager.config')
+      local config = require("session_manager.config")
       return {
         autoload_mode = config.AutoloadMode.Disabled,
         autosave_last_session = false,
@@ -166,7 +166,7 @@ return {
       }
     end,
     config = function(_, opts)
-      local session_manager = require('session_manager')
+      local session_manager = require("session_manager")
       session_manager.setup(opts)
 
       -- Auto save session
@@ -181,7 +181,7 @@ return {
       --     session_manager.save_current_session()
       --   end
       -- })
-    end
+    end,
   },
 
   -- spectre.nvim [search and replace in project]
@@ -198,14 +198,14 @@ return {
         find = {
           -- pick one of item in find_engine [ fd, rg ]
           cmd = "fd",
-          options = {}
+          options = {},
         },
         replace = {
           -- pick one of item in [ sed, oxi ]
-          cmd = "sed"
+          cmd = "sed",
         },
       },
-      is_insert_mode = true,    -- start open panel on is_insert_mode
+      is_insert_mode = true, -- start open panel on is_insert_mode
       is_block_ui_break = true, -- prevent the UI from breaking
       mapping = {
         ["toggle_line"] = {
@@ -301,7 +301,7 @@ return {
         auto_clean_after_session_restore = true,
         close_if_last_window = true,
         buffers = {
-          show_unloaded = true
+          show_unloaded = true,
         },
         sources = { "filesystem", "buffers", "git_status" },
         source_selector = {
@@ -353,13 +353,15 @@ return {
         -- A command is a function that we can assign to a mapping (below)
         commands = {
           system_open = function(state)
-            require("base.utils").open_with_program(state.tree:get_node():get_id())
+            require("base.utils").open_with_program(
+              state.tree:get_node():get_id()
+            )
           end,
           parent_or_close = function(state)
             local node = state.tree:get_node()
             if
-                (node.type == "directory" or node:has_children())
-                and node:is_expanded()
+              (node.type == "directory" or node:has_children())
+              and node:is_expanded()
             then
               state.commands.toggle_node(state)
             else
@@ -374,7 +376,7 @@ return {
             if node.type == "directory" or node:has_children() then
               if not node:is_expanded() then -- if unexpanded, expand
                 state.commands.toggle_node(state)
-              else                           -- if expanded and has children, seleect the next child
+              else -- if expanded and has children, seleect the next child
                 require("neo-tree.ui.renderer").focus_node(
                   state,
                   node:get_child_ids()[1]
@@ -414,9 +416,9 @@ return {
             for i, result in pairs(results) do
               if result.val and result.val ~= "" then
                 vim.list_extend(messages, {
-                  { ("%s."):format(i),           "Identifier" },
+                  { ("%s."):format(i), "Identifier" },
                   { (" %s: "):format(result.msg) },
-                  { result.val,                  "String" },
+                  { result.val, "String" },
                   { "\n" },
                 })
               end
@@ -431,10 +433,10 @@ return {
           find_in_dir = function(state)
             local node = state.tree:get_node()
             local path = node:get_id()
-            require("telescope.builtin").find_files {
+            require("telescope.builtin").find_files({
               cwd = node.type == "directory" and path
-                  or vim.fn.fnamemodify(path, ":h"),
-            }
+                or vim.fn.fnamemodify(path, ":h"),
+            })
           end,
         },
         window = {
@@ -458,10 +460,10 @@ return {
           hijack_netrw_behavior = "open_current",
           use_libuv_file_watcher = true,
           filtered_items = {
-              visible = true, -- <== VOIR les fichiers cachés
-              hide_dotfiles = false, -- <== Affiche les fichiers qui commencent par .
-              hide_gitignored = false, -- <== Affiche les fichiers ignorés par git
-            },
+            visible = true, -- <== VOIR les fichiers cachés
+            hide_dotfiles = false, -- <== Affiche les fichiers qui commencent par .
+            hide_gitignored = false, -- <== Affiche les fichiers ignorés par git
+          },
         },
         event_handlers = {
           {
@@ -491,7 +493,7 @@ return {
       },
       provider_selector = function(_, filetype, buftype)
         local function handleFallbackException(bufnr, err, providerName)
-          if type(err) == "string" and err:match "UfoFallbackException" then
+          if type(err) == "string" and err:match("UfoFallbackException") then
             return require("ufo").getFolds(bufnr, providerName)
           else
             return require("promise").reject(err)
@@ -500,20 +502,20 @@ return {
 
         -- only use indent until a file is opened
         return (filetype == "" or buftype == "nofile") and "indent"
-            or function(bufnr)
-              return require("ufo")
-                  .getFolds(bufnr, "lsp")
-                  :catch(
-                    function(err)
-                      return handleFallbackException(bufnr, err, "treesitter")
-                    end
-                  )
-                  :catch(
-                    function(err)
-                      return handleFallbackException(bufnr, err, "indent")
-                    end
-                  )
-            end
+          or function(bufnr)
+            return require("ufo")
+              .getFolds(bufnr, "lsp")
+              :catch(
+                function(err)
+                  return handleFallbackException(bufnr, err, "treesitter")
+                end
+              )
+              :catch(
+                function(err)
+                  return handleFallbackException(bufnr, err, "indent")
+                end
+              )
+          end
       end,
     },
   },
@@ -523,9 +525,9 @@ return {
   --  Read their docs to enable cross-session history.
   {
     "AckslD/nvim-neoclip.lua",
-    requires = 'nvim-telescope/telescope.nvim',
+    requires = "nvim-telescope/telescope.nvim",
     event = "User BaseFile",
-    opts = {}
+    opts = {},
   },
 
   --  zen-mode.nvim [distraction free mode]
@@ -548,7 +550,7 @@ return {
     "andymass/vim-matchup",
     event = "User BaseFile",
     config = function()
-      vim.g.matchup_matchparen_deferred = 1   -- work async
+      vim.g.matchup_matchparen_deferred = 1 -- work async
       vim.g.matchup_matchparen_offscreen = {} -- disable status bar icon
     end,
   },
@@ -558,7 +560,7 @@ return {
   {
     "smoka7/hop.nvim",
     cmd = { "HopWord" },
-    opts = { keys = "etovxqpdygfblzhckisuran" }
+    opts = { keys = "etovxqpdygfblzhckisuran" },
   },
 
   --  nvim-autopairs [auto close brackets]
@@ -592,11 +594,12 @@ return {
       if is_cmp_loaded then
         cmp.event:on(
           "confirm_done",
-          require("nvim-autopairs.completion.cmp").on_confirm_done {
-            tex = false }
+          require("nvim-autopairs.completion.cmp").on_confirm_done({
+            tex = false,
+          })
         )
       end
-    end
+    end,
   },
 
   -- nvim-ts-autotag [auto close html tags]
@@ -607,9 +610,9 @@ return {
     event = "InsertEnter",
     dependencies = {
       "nvim-treesitter/nvim-treesitter",
-      "windwp/nvim-autopairs"
+      "windwp/nvim-autopairs",
     },
-    opts = {}
+    opts = {},
   },
 
   -- lsp_signature.nvim [auto params help]
@@ -622,12 +625,12 @@ return {
       local is_enabled = vim.g.lsp_signature_enabled
       local round_borders = {}
       if vim.g.lsp_round_borders_enabled then
-        round_borders = { border = 'rounded' }
+        round_borders = { border = "rounded" }
       end
       return {
         -- Window mode
         floating_window = is_enabled, -- Display it as floating window.
-        hi_parameter = "IncSearch",   -- Color to highlight floating window.
+        hi_parameter = "IncSearch", -- Color to highlight floating window.
         handler_opts = round_borders, -- Window style
 
         -- Hint mode
@@ -635,17 +638,17 @@ return {
         hint_prefix = "👈 ",
 
         -- Additionally, you can use <space>uH to toggle inlay hints.
-        toggle_key_flip_floatwin_setting = is_enabled
+        toggle_key_flip_floatwin_setting = is_enabled,
       }
     end,
-    config = function(_, opts) require('lsp_signature').setup(opts) end
+    config = function(_, opts) require("lsp_signature").setup(opts) end,
   },
 
   -- nvim-lightbulb [lightbulb for code actions]
   -- https://github.com/kosayoda/nvim-lightbulb
   -- Show a lightbulb where a code action is available
   {
-    'kosayoda/nvim-lightbulb',
+    "kosayoda/nvim-lightbulb",
     enabled = vim.g.codeactions_enabled,
     event = "User BaseFile",
     opts = {
@@ -662,10 +665,10 @@ return {
       sign = { enabled = false },
       virtual_text = {
         enabled = true,
-        text = require("base.utils").get_icon("Lightbulb")
-      }
+        text = require("base.utils").get_icon("Lightbulb"),
+      },
     },
-    config = function(_, opts) require("nvim-lightbulb").setup(opts) end
+    config = function(_, opts) require("nvim-lightbulb").setup(opts) end,
   },
 
   -- distroupdate.nvim [distro update]
@@ -676,19 +679,20 @@ return {
     event = "User BaseFile",
     opts = function()
       local utils = require("base.utils")
-      local config_dir = utils.os_path(vim.fn.stdpath "config" .. "/lua/base/")
+      local config_dir =
+        utils.os_path(vim.fn.stdpath("config") .. "/lua/base/")
       return {
         notify = true,
         reload_files = {
           config_dir .. "1-options.lua",
-          config_dir .. "4-mappings.lua"
+          config_dir .. "4-mappings.lua",
         },
         reload_callback = function()
           vim.cmd(":silent! colorscheme " .. vim.g.default_colorscheme) -- nvim     colorscheme reload command
-          vim.cmd(":silent! doautocmd ColorScheme")                     -- heirline colorscheme reload event
-        end
+          vim.cmd(":silent! doautocmd ColorScheme") -- heirline colorscheme reload event
+        end,
       }
-    end
+    end,
   },
 
   -- distroupdate.nvim [distro update]
@@ -701,69 +705,329 @@ return {
       "DistroReadChangelog",
       "DistroReadVersion",
       "DistroUpdate",
-      "DistroUpdateRevert"
+      "DistroUpdateRevert",
     },
     opts = {
-        channel = "stable" -- stable/nightly
-    }
+      channel = "stable", -- stable/nightly
+    },
   },
-{
+  {
     "rachartier/tiny-inline-diagnostic.nvim",
     event = "VeryLazy", -- Or `LspAttach`
     priority = 1000, -- needs to be loaded in first
     config = function()
-        require('tiny-inline-diagnostic').setup(
-        {
-          preset = "classic",
-          transparent_bg = true
-        })
-
-    end
-},
-
-{
-  "mfussenegger/nvim-jdtls",
-  ft = { "java" },
-  dependencies = {
-    "neovim/nvim-lspconfig",
-    "williamboman/mason.nvim",
+      require("tiny-inline-diagnostic").setup({
+        preset = "classic",
+        transparent_bg = true,
+      })
+    end,
   },
-},
 
-{
-  "stevearc/conform.nvim",
-  event = { "BufReadPre", "BufNewFile" },
-  config = function()
-    require("conform").setup({
-      format_on_save = {
-        lsp_fallback = true,
-        timeout_ms = 500,
+  {
+    "mfussenegger/nvim-jdtls",
+    ft = { "java" },
+    dependencies = {
+      "neovim/nvim-lspconfig",
+      "williamboman/mason.nvim",
+    },
+  },
+  {
+    "supermaven-inc/supermaven-nvim",
+    lazy = false,
+    config = function() require("supermaven-nvim").setup({}) end,
+  },
+
+  {
+    "stevearc/conform.nvim",
+    event = { "BufReadPre", "BufNewFile" },
+    config = function()
+      require("conform").setup({
+        format_on_save = {
+          lsp_fallback = true,
+          timeout_ms = 500,
+        },
+        formatters_by_ft = {
+          lua = { "stylua" },
+          python = { "black" },
+          javascript = { "prettier" },
+          typescript = { "prettier" },
+          typescriptreact = { "prettier" },
+          javascriptreact = { "prettier" },
+          json = { "prettier" },
+          html = { "prettier" },
+          css = { "prettier" },
+          scss = { "prettier" },
+          go = { "gofmt" },
+          rust = { "rustfmt" },
+          sh = { "shfmt" },
+          yaml = { "prettier" },
+          -- markdown = { "prettier" },
+          markdown = {},
+          toml = { "taplo" },
+          vue = { "prettier" },
+          php = { "php-cs-fixer" },
+          java = { "google-java-format" },
+          c = { "clang-format" },
+          cpp = { "clang-format" },
+          xml = { "xmlformat" },
+        },
+      })
+    end,
+  },
+  {
+    "renerocksai/telekasten.nvim",
+    dependencies = {
+      "nvim-telescope/telescope.nvim",
+      "renerocksai/calendar-vim",
+    },
+    config = function()
+      require("telekasten").setup({
+        home = vim.fn.expand("~/Markdown"), -- adapte à ton dossier
+      })
+
+      -- 🔧 Force le filetype à "markdown" si telekasten tente de le modifier
+      vim.api.nvim_create_autocmd("FileType", {
+        pattern = "telekasten",
+        callback = function() vim.bo.filetype = "markdown" end,
+        desc = "Force filetype markdown for telekasten buffers",
+      })
+    end,
+    keys = {
+      { "<leader>zf", "<cmd>Telekasten find_notes<CR>", desc = "Find notes" },
+      {
+        "<leader>zi",
+        "<cmd>Telekasten insert_link<CR>",
+        desc = "Insert link",
       },
-      formatters_by_ft = {
-        lua = { "stylua" },
-        python = { "black" },
-        javascript = { "prettier" },
-        typescript = { "prettier" },
-        typescriptreact = { "prettier" },
-        javascriptreact = { "prettier" },
-        json = { "prettier" },
-        html = { "prettier" },
-        css = { "prettier" },
-        scss = { "prettier" },
-        go = { "gofmt" },
-        rust = { "rustfmt" },
-        sh = { "shfmt" },
-        yaml = { "prettier" },
-        markdown = { "prettier" },
-        toml = { "taplo" },
-        vue = { "prettier" },
-        php = { "php-cs-fixer" },
-        java = { "google-java-format" },
-        c = { "clang-format" },
-        cpp = { "clang-format" },
-        xml = { "xmlformat" },
+      {
+        "<leader>zl",
+        "<cmd>Telekasten follow_link<CR>",
+        desc = "Follow link",
       },
-    })
-  end,
-},
-} -- end of return
+      { "<leader>zt", "<cmd>Telekasten goto_today<CR>", desc = "Goto today" },
+      { "<leader>zn", "<cmd>Telekasten new_note<CR>", desc = "New note" },
+      {
+        "<leader>zw",
+        "<cmd>Telekasten goto_thisweek<CR>",
+        desc = "Goto this week",
+      },
+      {
+        "<leader>zW",
+        "<cmd>Telekasten find_weekly_notes<CR>",
+        desc = "Find weekly notes",
+      },
+      {
+        "<leader>zy",
+        "<cmd>Telekasten yank_notelink<CR>",
+        desc = "Yank link to note",
+      },
+      {
+        "<leader>zr",
+        "<cmd>Telekasten rename_note<CR>",
+        desc = "Rename note",
+      },
+      {
+        "<leader>zT",
+        "<cmd>Telekasten new_templated_note<CR>",
+        desc = "New templated note",
+      },
+      {
+        "<leader>zc",
+        "<cmd>Telekasten show_calendar<CR>",
+        desc = "Show calendar",
+      },
+      {
+        "<leader>zp",
+        "<cmd>Telekasten paste_img_and_link<CR>",
+        desc = "Paste image from clipboard",
+      },
+      {
+        "<leader>zd",
+        "<cmd>Telekasten toggle_todo<CR>",
+        desc = "Toggle todo",
+      },
+      {
+        "<leader>zb",
+        "<cmd>Telekasten show_backlinks<CR>",
+        desc = "Show backlinks",
+      },
+      {
+        "<leader>zF",
+        "<cmd>Telekasten find_friends<CR>",
+        desc = "Find friend notes",
+      },
+      {
+        "<leader>zI",
+        "<cmd>Telekasten browse_images<CR>",
+        desc = "Browse images, insert link",
+      },
+      {
+        "<leader>zP",
+        "<cmd>Telekasten preview_img<CR>",
+        desc = "Preview image under cursor",
+      },
+      {
+        "<leader>zM",
+        "<cmd>Telekasten browse_media<CR>",
+        desc = "Browse media",
+      },
+      { "<leader>zX", "<cmd>Telekasten panel<CR>", desc = "Panel" },
+      { "<leader>z#", "<cmd>Telekasten show_tags<CR>", desc = "Show tags" },
+      {
+        "<leader>zV",
+        "<cmd>Telekasten switch_vault<CR>",
+        desc = "Switch vault",
+      },
+    },
+  },
+  {
+    "olimorris/codecompanion.nvim",
+    dependencies = {
+      "nvim-lua/plenary.nvim",
+      "nvim-treesitter/nvim-treesitter",
+      "ravitemer/codecompanion-history.nvim",
+      "folke/which-key.nvim", -- nécessaire pour tes mappings
+    },
+    event = "VeryLazy", -- supprime si tu veux charger immédiatement
+    opts = {},
+    config = function()
+      require("codecompanion").setup({
+        strategies = {
+          inline = {
+            keymaps = {
+              accept_change = {
+                modes = { n = "ga" },
+                description = "Accept the suggested change",
+              },
+              reject_change = {
+                modes = { n = "gn" },
+                description = "Reject the suggested change",
+              },
+            },
+          },
+        },
+      })
+
+      -- Corrige l'affichage dans tous les buffers codecompanion
+      vim.api.nvim_create_autocmd("BufEnter", {
+        callback = function()
+          if vim.bo.filetype == "codecompanion" then
+            vim.opt_local.number = false
+            vim.opt_local.relativenumber = false
+          end
+        end,
+      })
+
+      -- Keymaps spécifiques au FileType "codecompanion"
+      vim.api.nvim_create_autocmd("FileType", {
+        pattern = "codecompanion",
+        callback = function()
+          local wk = require("which-key")
+          local opts = { noremap = true, silent = true, buffer = true }
+          local map = vim.keymap.set
+
+          wk.register({
+            g = {
+              name = "+CodeCompanion",
+              R = { "<Cmd>CodeCompanionOpenInTab<CR>", "Open in tab" },
+              t = {
+                name = "+Toggle",
+                a = {
+                  "<Cmd>CodeCompanionToggleAutoMode<CR>",
+                  "Auto tool mode",
+                },
+              },
+              w = { "<Cmd>CodeCompanionWatchBuffer<CR>", "Watch Buffer" },
+              c = {
+                "<Cmd>CodeCompanionInsertCodeblock<CR>",
+                "Insert Codeblock",
+              },
+              f = { "<Cmd>CodeCompanionFold<CR>", "Fold Code" },
+              p = { "<Cmd>CodeCompanionPinReference<CR>", "Pin Reference" },
+              x = { "<Cmd>CodeCompanionClearChat<CR>", "Clear Chat" },
+              d = { "<Cmd>CodeCompanionDebugInfo<CR>", "Debug Info" },
+              a = { "<Cmd>CodeCompanionChangeAdapter<CR>", "Change Adapter" },
+              r = { "<Cmd>CodeCompanionRegenerate<CR>", "Regenerate" },
+              s = {
+                "<Cmd>CodeCompanionToggleSystemPrompt<CR>",
+                "Toggle System Prompt",
+              },
+              y = { "<Cmd>CodeCompanionYankCode<CR>", "Yank Code" },
+            },
+          }, { mode = "n", buffer = 0 })
+
+          map("n", "gx", "<Cmd>CodeCompanionClearChat<CR>", opts)
+
+          -- 🔁 Autres keymaps utiles
+          map("n", "{", "<Cmd>CodeCompanionPrevChat<CR>", opts)
+          map("n", "}", "<Cmd>CodeCompanionNextChat<CR>", opts)
+          map("n", "<CR>", "<Cmd>CodeCompanionSend<CR>", opts)
+          map("n", "<C-s>", "<Cmd>CodeCompanionSend<CR>", opts)
+          map("i", "<C-s>", "<Cmd>CodeCompanionSend<CR>", opts)
+          map("n", "q", "<Cmd>CodeCompanionStopRequest<CR>", opts)
+          map("n", "[[", "<Cmd>CodeCompanionPrevHeader<CR>", opts)
+          map("n", "]]", "<Cmd>CodeCompanionNextHeader<CR>", opts)
+          map("n", "<C-c>", "<Cmd>CodeCompanionCloseChat<CR>", opts)
+          map("i", "<C-c>", "<Cmd>CodeCompanionCloseChat<CR>", opts)
+        end,
+      })
+    end,
+  },
+  {
+    "cameron-wags/rainbow_csv.nvim",
+    config = true,
+    ft = {
+      "csv",
+      "tsv",
+      "csv_semicolon",
+      "csv_whitespace",
+      "csv_pipe",
+      "rfc_csv",
+      "rfc_semicolon",
+    },
+    cmd = {
+      "RainbowDelim",
+      "RainbowDelimSimple",
+      "RainbowDelimQuoted",
+      "RainbowMultiDelim",
+    },
+  },
+  {
+    "zaldih/themery.nvim",
+    lazy = false,
+    config = function()
+      require("themery").setup({
+        themes = {
+          "gruvbox",
+          "blue",
+          "peachpuff",
+          "darkblue",
+          "quiet",
+          "default",
+          "delek",
+          "retrobox",
+          "desert",
+          "ron",
+          "elflord",
+          "shine",
+          "slate",
+          "evening",
+          "sorbet",
+          "habamax",
+          "industry",
+          "torte",
+          "unokai",
+          "koehler",
+          "lunaperche",
+          "morning",
+          "wildcharm",
+          "murphy",
+          "zaibatsu",
+          "pablo",
+          "zellner",
+        },
+        livePreview = true, -- tu peux prévisualiser avant d’appliquer
+      })
+    end,
+  },
+}
