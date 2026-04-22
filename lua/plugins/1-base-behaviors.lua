@@ -29,6 +29,23 @@ local is_android = vim.fn.isdirectory('/data') == 1 -- true if on android
 
 return {
 
+  {
+    -- [smear] smooth cursor
+    -- https://github.com/sphamba/smear-cursor.nvim
+    "sphamba/smear-cursor.nvim",
+    lazy = false,
+    priority = 1000,
+    opts = {
+      smear_between_buffers = true,
+      smear_between_neighbor_lines = true,
+      smear_insert_mode = true,
+      stiffness = 0.8,
+      trailing_stiffness = 0.5,
+      distance_stop_animating = 0.5,
+      legacy_computing_symbols_support = true,
+    },
+  },
+
   -- [yazi] file browser
   -- https://github.com/mikavilpas/yazi.nvim
   -- Make sure you have yazi installed on your system!
@@ -438,7 +455,7 @@ return {
           end,
         },
         window = {
-          width = 30,
+          width = 45,
           mappings = {
             ["<space>"] = false,
             ["<S-CR>"] = "system_open",
@@ -457,6 +474,11 @@ return {
           },
           hijack_netrw_behavior = "open_current",
           use_libuv_file_watcher = true,
+          filtered_items = {
+            visible = true,          -- show items that would normally be filtered
+            hide_dotfiles = false,   -- show dotfiles
+            hide_gitignored = false, -- show gitignored files
+          },
         },
         event_handlers = {
           {

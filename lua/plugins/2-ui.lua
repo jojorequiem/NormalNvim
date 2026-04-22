@@ -28,6 +28,38 @@ local is_android = vim.fn.isdirectory('/data') == 1 -- true if on android
 
 return {
 
+  --  black-metal [theme]
+  --  https://github.com/metalelf0/black-metal-theme-neovim
+  {
+    "metalelf0/black-metal-theme-neovim",
+    lazy = false,
+    priority = 1000,
+    config = function()
+      vim.o.background = "dark"
+
+      local venom_bg = "#111111"
+      require("black-metal").setup({
+        theme = "immortal",
+        variant = "dark",
+        transparent = false,
+        alt_bg = false,
+        highlights = {
+          Normal       = { bg = venom_bg },
+          NormalFloat  = { bg = venom_bg },
+          SignColumn   = { bg = venom_bg },
+          LineNr       = { bg = venom_bg },
+          FoldColumn   = { bg = venom_bg },
+          EndOfBuffer  = { bg = venom_bg },
+          VertSplit    = { bg = venom_bg },
+          StatusLine   = { bg = venom_bg },
+          StatusLineNC = { bg = venom_bg },
+          Pmenu        = { bg = venom_bg },
+        },
+      })
+      require("black-metal").load()
+    end,
+  },
+
   --  tokyonight [theme]
   --  https://github.com/folke/tokyonight.nvim
   {

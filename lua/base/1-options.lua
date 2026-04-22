@@ -4,7 +4,8 @@
 -- ----------------------------------------
 
 -- Theme
-vim.g.default_colorscheme = "eldritch"
+vim.o.background = "dark"
+vim.g.default_colorscheme = "immortal"
 
 -- Options --------------------------------------------------------------------
 vim.opt.breakindent = true -- Wrap indent to match  line start.
@@ -82,4 +83,3 @@ vim.g.lsp_round_borders_enabled = true -- Enable round borders for lsp hover and
 vim.g.lsp_signature_enabled = true -- Enable automatically showing lsp help as you write function parameters.
 vim.g.notifications_enabled = true -- Enable notifications.
 vim.g.url_hl_enabled = true -- Highlight URLs with an underline effect.
-
