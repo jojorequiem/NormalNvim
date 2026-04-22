@@ -379,12 +379,12 @@ return {
             return is_disabled
           end,
         },
-        tabline = { -- UI upper bar
-          lib.component.tabline_conditional_padding(),
-          lib.component.tabline_buffers(),
-          lib.component.fill { hl = { bg = "tabline_bg" } },
-          lib.component.tabline_tabpages()
-        },
+        -- tabline = { -- UI upper bar
+        --   lib.component.tabline_conditional_padding(),
+        --   lib.component.tabline_buffers(),
+        --   lib.component.fill { hl = { bg = "tabline_bg" } },
+        --   lib.component.tabline_tabpages()
+        -- },
         winbar = { -- UI breadcrumbs bar
           init = function(self) self.bufnr = vim.api.nvim_get_current_buf() end,
           fallthrough = false,
@@ -393,22 +393,22 @@ return {
             condition = function() return not lib.condition.is_active() end,
             {
               lib.component.neotree(),
-              lib.component.compiler_play(),
-              lib.component.fill(),
-              lib.component.compiler_redo(),
-              lib.component.aerial(),
+              -- lib.component.compiler_play(),
+              -- lib.component.fill(),
+              -- lib.component.compiler_redo(),
+              -- lib.component.aerial(),
             },
           },
           -- Regular winbar
           {
-            lib.component.neotree(),
-            lib.component.compiler_play(),
-            lib.component.fill(),
+            -- lib.component.neotree(),
+            -- lib.component.compiler_play(),
+            -- lib.component.fill(),
             lib.component.breadcrumbs(),
-            lib.component.fill(),
-            lib.component.compiler_redo(),
-            lib.component.aerial(),
-          }
+            -- lib.component.fill(),
+            -- lib.component.compiler_redo(),
+            -- lib.component.aerial(),
+          },
         },
         statuscolumn = { -- UI left column
           init = function(self) self.bufnr = vim.api.nvim_get_current_buf() end,
@@ -421,16 +421,11 @@ return {
           lib.component.mode(),
           lib.component.git_branch(),
           lib.component.file_info(),
-          lib.component.git_diff(),
           lib.component.diagnostics(),
           lib.component.fill(),
-          lib.component.cmd_info(),
-          lib.component.fill(),
           lib.component.lsp(),
-          lib.component.compiler_state(),
-          lib.component.virtual_env(),
           lib.component.nav(),
-          lib.component.mode { surround = { separator = "right" } },
+          -- lib.component.mode { surround = { separator = "right" } },
         },
       }
     end,

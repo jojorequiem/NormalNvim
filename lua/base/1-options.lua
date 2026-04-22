@@ -8,12 +8,13 @@ vim.o.background = "dark"
 vim.g.default_colorscheme = "immortal"
 
 -- Options --------------------------------------------------------------------
+vim.opt.showtabline = 0
 vim.opt.breakindent = true -- Wrap indent to match  line start.
 vim.opt.clipboard = "unnamedplus" -- Connection to the system clipboard.
 vim.opt.cmdheight = 0 -- Hide command line unless needed.
 vim.opt.completeopt = { "menu", "menuone", "noselect" } -- Options for insert mode completion.
 vim.opt.copyindent = true -- Copy the previous indentation on autoindenting.
-vim.opt.cursorline = true -- Highlight the text line of the cursor.
+vim.opt.cursorline = false -- Highlight the text line of the cursor.
 vim.opt.expandtab = true -- Enable the use of space in tab.
 vim.opt.fileencoding = "utf-8" -- File content encoding for the buffer.
 vim.opt.fillchars = { eob = " " } -- Disable `~` on nonexistent lines.
@@ -32,13 +33,13 @@ vim.opt.pumheight = 10 -- Height of the pop up menu.
 vim.opt.relativenumber = false -- Show relative numberline.
 vim.opt.shiftwidth = 2 -- Number of space inserted for indentation.
 vim.opt.showmode = false -- Disable showing modes in command line.
-vim.opt.showtabline = 2 -- always display tabline.
-vim.opt.signcolumn = "yes" -- Always show the sign column.
+vim.opt.signcolumn = "no" -- Always show the sign column.
 vim.opt.smartcase = true -- Case sensitivie searching.
 vim.opt.smartindent = false -- Smarter autoindentation.
 vim.opt.splitbelow = true -- Splitting a new window below the current one.
 vim.opt.splitright = true -- Splitting a new window at the right of the current one.
 vim.opt.tabstop = 2 -- Number of space in a tab.
+vim.opt.showbreak = "_"
 
 vim.opt.termguicolors = true -- Enable 24-bit RGB color in the TUI.
 vim.opt.undofile = true -- Enable persistent undo between session and reboots.
