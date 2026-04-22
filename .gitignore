@@ -1,6 +1,7 @@
 /lua/base/git-ignored
 .codex
 makethisforme.md
+.nvimlog
 .env
 .env.*
 *.pem

@@ -556,13 +556,15 @@ return {
     "folke/noice.nvim",
     event = "User BaseDefered",
     opts = function()
+      -- NOTE: We keep Noice's default cmdline rendering but hide the leading `:`
+      -- so the popup looks like Neovim's "clean" prompt.
       local enable_conceal = false          -- Hide command text if true
       return {
         presets = { bottom_search = false }, -- Show search/cmdline as popup (centered)
         cmdline = {
           view = "cmdline_popup",           -- The kind of popup used for :
           format = {
-            cmdline = { conceal = enable_conceal },
+            cmdline = { conceal = true }, -- hide the leading `:`
             search_down = { conceal = enable_conceal },
             search_up = { conceal = enable_conceal },
             filter = { conceal = enable_conceal },
