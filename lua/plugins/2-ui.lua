@@ -21,17 +21,136 @@
 --       -> which-key                   [on-screen keybinding]
 
 local utils = require("base.utils")
-local is_windows = vim.fn.has("win32") == 1 -- true if on windows
+local is_windows = vim.fn.has("win32") == 1         -- true if on windows
 local is_android = vim.fn.isdirectory("/data") == 1 -- true if on android
 
 return {
-  -- gruvbox [theme]
+  
+  -- =========================================================================
+  -- Colorschemes / Themes
+  -- =========================================================================
+  -- Below is a collection of popular neovim themes.
+  -- To make one active, simply set `lazy = false`, `priority = 1000`, and call
+  -- `vim.cmd.colorscheme("<theme_name>")` in its `config` function.
+  {
+    "metalelf0/black-metal-theme-neovim",
+    lazy = false,
+    priority = 1000,
+    config = function()
+      -- Toujours définir avant le thème
+      vim.o.background = "dark"
+
+      local venom_bg = "#111111" -- Noir Venom profond (meilleur que #000000)
+
+      require("black-metal").setup({
+        theme = "immortal",
+        variant = "dark",
+        transparent = false,
+        alt_bg = false,
+
+        -- Override propre via l'API du plugin
+        highlights = {
+          Normal       = { bg = venom_bg },
+          NormalFloat  = { bg = venom_bg },
+          SignColumn   = { bg = venom_bg },
+          LineNr       = { bg = venom_bg },
+          FoldColumn   = { bg = venom_bg },
+          EndOfBuffer  = { bg = venom_bg },
+          VertSplit    = { bg = venom_bg },
+          StatusLine   = { bg = venom_bg },
+          StatusLineNC = { bg = venom_bg },
+          Pmenu        = { bg = venom_bg },
+        },
+      })
+
+      require("black-metal").load()
+    end,
+  },
+  
+  -- Gruvbox: Material variant of the retro groove color scheme
+  { "sainnhe/gruvbox-material" },
+
+  -- Gruvbox: Retro groove color scheme for Neovim
   {
     "ellisonleao/gruvbox.nvim",
     lazy = false,
     priority = 1000,
     config = function() vim.cmd.colorscheme("gruvbox") end,
   },
+
+  -- Catppuccin: Soothing pastel theme for Neovim
+  {
+    "catppuccin/nvim",
+    name = "catppuccin",
+    priority = 1000,
+    config = function() vim.cmd.colorscheme("catppuccin") end,
+  },
+
+  -- Rosé Pine: All natural pine, faux fur and a bit of soho vibes
+  { "rose-pine/neovim" },
+
+  -- Nvimgelion: Evangelion inspired theme
+  { "nyngwang/nvimgelion" },
+
+  -- Kanagawa: Neo-dark colorscheme inspired by the famous painting
+  { "rebelot/kanagawa.nvim" },
+
+  -- Oldworld: Classic, vintage-style dark theme
+  { "dgox16/oldworld.nvim" },
+
+  -- Nightfox: Highly customizable theme with multiple palettes (Dayfox, Dawnfox, etc.)
+  { "EdenEast/nightfox.nvim" },
+
+  -- Oxocarbon: IBM Carbon Design System inspired theme
+  { "nyoom-engineering/oxocarbon.nvim" },
+
+  -- Citruszest: A zesty, high-contrast dark theme
+  { "zootedb0t/citruszest.nvim" },
+
+  -- Sonokai: High contrast & vivid color scheme based on Monokai
+  { "sainnhe/sonokai" },
+
+  -- VSCode: Visual Studio Code's default dark theme
+  { "Mofiqul/vscode.nvim" },
+
+  -- GitHub: GitHub's dark, light and dimmed themes
+  { "projekt0n/github-nvim-theme" },
+
+  -- Dracula: A dark theme for many editors, shells, and more
+  { "dracula/vim" },
+
+  -- OneDark: Atom's iconic dark theme
+  { "navarasu/onedark.nvim" },
+
+  -- Cyberdream: High-contrast cyberpunk-inspired theme
+  { "scottmckendry/cyberdream.nvim" },
+
+  -- Nord: An arctic, north-bluish clean and elegant theme
+  { "shaunsingh/nord.nvim" },
+
+  -- TokyoDark: A clean, dark theme with a hint of purple
+  { "tiagovla/tokyodark.nvim" },
+
+  -- Girly: A soft, pastel pinkish theme
+  { "utubo/vim-colorscheme-girly" },
+
+  -- Mellifluous: Pleasant, soothing theme with warm/cool variants
+  { "ramojus/mellifluous.nvim" },
+
+  -- Eldritch: Unearthly, dark, and vibrant theme
+  { "eldritch-theme/eldritch.nvim" },
+
+  -- Poimandres: Minimalist, soft dark theme inspired by the Poimandres React library
+  { "olivercederborg/poimandres.nvim" },
+
+  -- Lackluster: A muted, low-contrast, minimal theme
+  { "slugbyte/lackluster.nvim" },
+
+  -- Miasma: A dark, moody, retro-inspired theme
+  { "xero/miasma.nvim" },
+
+  -- TokyoNight: A clean, dark Neovim theme written in Lua (default in many distros)
+  { "folke/tokyonight.nvim" },
 
   --  tokyonight [theme]
   --  https://github.com/folke/tokyonight.nvim
@@ -104,7 +223,7 @@ return {
       end
 
       dashboard.section.header.opts.hl = "DashboardHeader"
-      vim.cmd("highlight DashboardHeader guifg=#fb4934")
+      -- vim.cmd("highlight DashboardHeader guifg=#fb4934")
 
       -- If yazi is not installed, don't show the button.
       local is_yazi_installed = vim.fn.executable("ya") == 1
@@ -158,9 +277,9 @@ return {
 
       -- Vertical margins
       dashboard.config.layout[1].val =
-        vim.fn.max({ 2, vim.fn.floor(vim.fn.winheight(0) * 0.10) }) -- Above header
+          vim.fn.max({ 2, vim.fn.floor(vim.fn.winheight(0) * 0.10) }) -- Above header
       dashboard.config.layout[3].val =
-        vim.fn.max({ 2, vim.fn.floor(vim.fn.winheight(0) * 0.10) }) -- Above buttons
+          vim.fn.max({ 2, vim.fn.floor(vim.fn.winheight(0) * 0.10) }) -- Above buttons
 
       -- Disable autocmd and return
       dashboard.config.opts.noautocmd = true
@@ -767,8 +886,12 @@ return {
   },
   {
     "oribarilan/lensline.nvim",
-    tag = "1.1.0", -- or: branch = 'release/1.x' for latest non-breaking updates
-    event = "LspAttach",
-    config = function() require("lensline").setup() end,
+    tag = "1.1.0",       -- ou branch = "release/1.x"
+    event = "LspAttach", -- ne charge que quand un LSP s’attache
+    config = function()
+      require("lensline").setup()
+      -- Activer automatiquement lensline au chargement
+      vim.cmd("LenslineDisable")
+    end,
   },
-} -- end of return
+}

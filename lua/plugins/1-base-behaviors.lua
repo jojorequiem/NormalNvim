@@ -2,6 +2,7 @@
 -- Plugins that add new behaviors.
 
 --    Sections:
+--       -> smear cursor           [smear]
 --       -> yazi file browser      [yazi]
 --       -> project.nvim           [project search + auto cd]
 --       -> trim.nvim              [auto trim spaces]
@@ -28,6 +29,25 @@
 local is_android = vim.fn.isdirectory("/data") == 1 -- true if on android
 
 return {
+
+  {
+    -- [smear] smooth cursor
+    -- https://github.com/sphamba/smear-cursor.nvim
+    "sphamba/smear-cursor.nvim",
+    lazy = false,
+    priority = 1000,
+    opts = {},
+    opts = {
+      smear_between_buffers = true,
+      smear_between_neighbor_lines = true,
+      smear_insert_mode = true,
+      stiffness = 0.8,
+      trailing_stiffness = 0.5,
+      distance_stop_animating = 0.5,
+      legacy_computing_symbols_support = true,
+      -- distance_stop_animating_vertical_bar = true
+    },
+  },
 
   -- [yazi] file browser
   -- https://github.com/mikavilpas/yazi.nvim
@@ -205,7 +225,7 @@ return {
           cmd = "sed",
         },
       },
-      is_insert_mode = true, -- start open panel on is_insert_mode
+      is_insert_mode = true,    -- start open panel on is_insert_mode
       is_block_ui_break = true, -- prevent the UI from breaking
       mapping = {
         ["toggle_line"] = {
@@ -360,8 +380,8 @@ return {
           parent_or_close = function(state)
             local node = state.tree:get_node()
             if
-              (node.type == "directory" or node:has_children())
-              and node:is_expanded()
+                (node.type == "directory" or node:has_children())
+                and node:is_expanded()
             then
               state.commands.toggle_node(state)
             else
@@ -376,7 +396,7 @@ return {
             if node.type == "directory" or node:has_children() then
               if not node:is_expanded() then -- if unexpanded, expand
                 state.commands.toggle_node(state)
-              else -- if expanded and has children, seleect the next child
+              else                           -- if expanded and has children, seleect the next child
                 require("neo-tree.ui.renderer").focus_node(
                   state,
                   node:get_child_ids()[1]
@@ -416,9 +436,9 @@ return {
             for i, result in pairs(results) do
               if result.val and result.val ~= "" then
                 vim.list_extend(messages, {
-                  { ("%s."):format(i), "Identifier" },
+                  { ("%s."):format(i),           "Identifier" },
                   { (" %s: "):format(result.msg) },
-                  { result.val, "String" },
+                  { result.val,                  "String" },
                   { "\n" },
                 })
               end
@@ -435,7 +455,7 @@ return {
             local path = node:get_id()
             require("telescope.builtin").find_files({
               cwd = node.type == "directory" and path
-                or vim.fn.fnamemodify(path, ":h"),
+                  or vim.fn.fnamemodify(path, ":h"),
             })
           end,
         },
@@ -460,8 +480,8 @@ return {
           hijack_netrw_behavior = "open_current",
           use_libuv_file_watcher = true,
           filtered_items = {
-            visible = true, -- <== VOIR les fichiers cachés
-            hide_dotfiles = false, -- <== Affiche les fichiers qui commencent par .
+            visible = true,          -- <== VOIR les fichiers cachés
+            hide_dotfiles = false,   -- <== Affiche les fichiers qui commencent par .
             hide_gitignored = false, -- <== Affiche les fichiers ignorés par git
           },
         },
@@ -502,20 +522,20 @@ return {
 
         -- only use indent until a file is opened
         return (filetype == "" or buftype == "nofile") and "indent"
-          or function(bufnr)
-            return require("ufo")
-              .getFolds(bufnr, "lsp")
-              :catch(
-                function(err)
-                  return handleFallbackException(bufnr, err, "treesitter")
-                end
-              )
-              :catch(
-                function(err)
-                  return handleFallbackException(bufnr, err, "indent")
-                end
-              )
-          end
+            or function(bufnr)
+              return require("ufo")
+                  .getFolds(bufnr, "lsp")
+                  :catch(
+                    function(err)
+                      return handleFallbackException(bufnr, err, "treesitter")
+                    end
+                  )
+                  :catch(
+                    function(err)
+                      return handleFallbackException(bufnr, err, "indent")
+                    end
+                  )
+            end
       end,
     },
   },
@@ -550,7 +570,7 @@ return {
     "andymass/vim-matchup",
     event = "User BaseFile",
     config = function()
-      vim.g.matchup_matchparen_deferred = 1 -- work async
+      vim.g.matchup_matchparen_deferred = 1   -- work async
       vim.g.matchup_matchparen_offscreen = {} -- disable status bar icon
     end,
   },
@@ -630,7 +650,7 @@ return {
       return {
         -- Window mode
         floating_window = is_enabled, -- Display it as floating window.
-        hi_parameter = "IncSearch", -- Color to highlight floating window.
+        hi_parameter = "IncSearch",   -- Color to highlight floating window.
         handler_opts = round_borders, -- Window style
 
         -- Hint mode
@@ -680,7 +700,7 @@ return {
     opts = function()
       local utils = require("base.utils")
       local config_dir =
-        utils.os_path(vim.fn.stdpath("config") .. "/lua/base/")
+          utils.os_path(vim.fn.stdpath("config") .. "/lua/base/")
       return {
         notify = true,
         reload_files = {
@@ -689,7 +709,7 @@ return {
         },
         reload_callback = function()
           vim.cmd(":silent! colorscheme " .. vim.g.default_colorscheme) -- nvim     colorscheme reload command
-          vim.cmd(":silent! doautocmd ColorScheme") -- heirline colorscheme reload event
+          vim.cmd(":silent! doautocmd ColorScheme")                     -- heirline colorscheme reload event
         end,
       }
     end,
@@ -714,7 +734,7 @@ return {
   {
     "rachartier/tiny-inline-diagnostic.nvim",
     event = "VeryLazy", -- Or `LspAttach`
-    priority = 1000, -- needs to be loaded in first
+    priority = 1000,    -- needs to be loaded in first
     config = function()
       require("tiny-inline-diagnostic").setup({
         preset = "classic",
@@ -775,112 +795,6 @@ return {
     end,
   },
   {
-    "renerocksai/telekasten.nvim",
-    dependencies = {
-      "nvim-telescope/telescope.nvim",
-      "renerocksai/calendar-vim",
-    },
-    config = function()
-      require("telekasten").setup({
-        home = vim.fn.expand("~/Markdown"), -- adapte à ton dossier
-      })
-
-      -- 🔧 Force le filetype à "markdown" si telekasten tente de le modifier
-      vim.api.nvim_create_autocmd("FileType", {
-        pattern = "telekasten",
-        callback = function() vim.bo.filetype = "markdown" end,
-        desc = "Force filetype markdown for telekasten buffers",
-      })
-    end,
-    keys = {
-      { "<leader>zf", "<cmd>Telekasten find_notes<CR>", desc = "Find notes" },
-      {
-        "<leader>zi",
-        "<cmd>Telekasten insert_link<CR>",
-        desc = "Insert link",
-      },
-      {
-        "<leader>zl",
-        "<cmd>Telekasten follow_link<CR>",
-        desc = "Follow link",
-      },
-      { "<leader>zt", "<cmd>Telekasten goto_today<CR>", desc = "Goto today" },
-      { "<leader>zn", "<cmd>Telekasten new_note<CR>", desc = "New note" },
-      {
-        "<leader>zw",
-        "<cmd>Telekasten goto_thisweek<CR>",
-        desc = "Goto this week",
-      },
-      {
-        "<leader>zW",
-        "<cmd>Telekasten find_weekly_notes<CR>",
-        desc = "Find weekly notes",
-      },
-      {
-        "<leader>zy",
-        "<cmd>Telekasten yank_notelink<CR>",
-        desc = "Yank link to note",
-      },
-      {
-        "<leader>zr",
-        "<cmd>Telekasten rename_note<CR>",
-        desc = "Rename note",
-      },
-      {
-        "<leader>zT",
-        "<cmd>Telekasten new_templated_note<CR>",
-        desc = "New templated note",
-      },
-      {
-        "<leader>zc",
-        "<cmd>Telekasten show_calendar<CR>",
-        desc = "Show calendar",
-      },
-      {
-        "<leader>zp",
-        "<cmd>Telekasten paste_img_and_link<CR>",
-        desc = "Paste image from clipboard",
-      },
-      {
-        "<leader>zd",
-        "<cmd>Telekasten toggle_todo<CR>",
-        desc = "Toggle todo",
-      },
-      {
-        "<leader>zb",
-        "<cmd>Telekasten show_backlinks<CR>",
-        desc = "Show backlinks",
-      },
-      {
-        "<leader>zF",
-        "<cmd>Telekasten find_friends<CR>",
-        desc = "Find friend notes",
-      },
-      {
-        "<leader>zI",
-        "<cmd>Telekasten browse_images<CR>",
-        desc = "Browse images, insert link",
-      },
-      {
-        "<leader>zP",
-        "<cmd>Telekasten preview_img<CR>",
-        desc = "Preview image under cursor",
-      },
-      {
-        "<leader>zM",
-        "<cmd>Telekasten browse_media<CR>",
-        desc = "Browse media",
-      },
-      { "<leader>zX", "<cmd>Telekasten panel<CR>", desc = "Panel" },
-      { "<leader>z#", "<cmd>Telekasten show_tags<CR>", desc = "Show tags" },
-      {
-        "<leader>zV",
-        "<cmd>Telekasten switch_vault<CR>",
-        desc = "Switch vault",
-      },
-    },
-  },
-  {
     "olimorris/codecompanion.nvim",
     dependencies = {
       "nvim-lua/plenary.nvim",
@@ -888,22 +802,29 @@ return {
       "ravitemer/codecompanion-history.nvim",
       "folke/which-key.nvim", -- nécessaire pour tes mappings
     },
-    event = "VeryLazy", -- supprime si tu veux charger immédiatement
+    event = "VeryLazy",       -- supprime si tu veux charger immédiatement
     opts = {},
     config = function()
       require("codecompanion").setup({
         strategies = {
+          chat = {
+            adapter = "copilot",
+          },
           inline = {
-            keymaps = {
-              accept_change = {
-                modes = { n = "ga" },
-                description = "Accept the suggested change",
-              },
-              reject_change = {
-                modes = { n = "gn" },
-                description = "Reject the suggested change",
-              },
-            },
+            adapter = "copilot",
+          },
+          cmd = {
+            adapter = "copilot",
+          },
+        },
+        keymaps = {
+          accept_change = {
+            modes = { n = "ga" },
+            description = "Accept the suggested change",
+          },
+          reject_change = {
+            modes = { n = "gn" },
+            description = "Reject the suggested change",
           },
         },
       })
@@ -991,43 +912,5 @@ return {
       "RainbowDelimQuoted",
       "RainbowMultiDelim",
     },
-  },
-  {
-    "zaldih/themery.nvim",
-    lazy = false,
-    config = function()
-      require("themery").setup({
-        themes = {
-          "gruvbox",
-          "blue",
-          "peachpuff",
-          "darkblue",
-          "quiet",
-          "default",
-          "delek",
-          "retrobox",
-          "desert",
-          "ron",
-          "elflord",
-          "shine",
-          "slate",
-          "evening",
-          "sorbet",
-          "habamax",
-          "industry",
-          "torte",
-          "unokai",
-          "koehler",
-          "lunaperche",
-          "morning",
-          "wildcharm",
-          "murphy",
-          "zaibatsu",
-          "pablo",
-          "zellner",
-        },
-        livePreview = true, -- tu peux prévisualiser avant d’appliquer
-      })
-    end,
   },
 }

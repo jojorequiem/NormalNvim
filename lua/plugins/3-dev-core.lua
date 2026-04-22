@@ -356,7 +356,7 @@ return {
     config = function(_, opts)
       require("mason-lspconfig").setup(opts)
       utils_lsp.apply_default_lsp_settings() -- Apply our default lsp settings.
-      utils.trigger_event("FileType") -- This line starts this plugin.
+      utils.trigger_event("FileType")        -- This line starts this plugin.
     end,
   },
 
@@ -479,44 +479,44 @@ return {
         -- in 'path', write the name of the plugin directory.
         -- in 'mods', write the word you use to require the module.
         -- in 'words' write words that trigger loading a lazydev path (optionally).
-        { path = "lazy.nvim", mods = { "lazy" } },
-        { path = "yazi.nvim", mods = { "yazi" } },
-        { path = "project.nvim", mods = { "project_nvim", "telescope" } },
-        { path = "trim.nvim", mods = { "trim" } },
-        { path = "stickybuf.nvim", mods = { "stickybuf" } },
-        { path = "mini.bufremove", mods = { "mini.bufremove" } },
-        { path = "smart-splits.nvim", mods = { "smart-splits" } },
-        { path = "toggleterm.nvim", mods = { "toggleterm" } },
+        { path = "lazy.nvim",                   mods = { "lazy" } },
+        { path = "yazi.nvim",                   mods = { "yazi" } },
+        { path = "project.nvim",                mods = { "project_nvim", "telescope" } },
+        { path = "trim.nvim",                   mods = { "trim" } },
+        { path = "stickybuf.nvim",              mods = { "stickybuf" } },
+        { path = "mini.bufremove",              mods = { "mini.bufremove" } },
+        { path = "smart-splits.nvim",           mods = { "smart-splits" } },
+        { path = "toggleterm.nvim",             mods = { "toggleterm" } },
         { path = "neovim-session-manager.nvim", mods = { "session_manager" } },
-        { path = "nvim-spectre", mods = { "spectre" } },
-        { path = "neo-tree.nvim", mods = { "neo-tree" } },
-        { path = "nui.nvim", mods = { "nui" } },
-        { path = "nvim-ufo", mods = { "ufo" } },
-        { path = "promise-async", mods = { "promise-async" } },
-        { path = "nvim-neoclip.lua", mods = { "neoclip", "telescope" } },
-        { path = "zen-mode.nvim", mods = { "zen-mode" } },
-        { path = "vim-suda", mods = { "suda" } }, -- has vimscript
+        { path = "nvim-spectre",                mods = { "spectre" } },
+        { path = "neo-tree.nvim",               mods = { "neo-tree" } },
+        { path = "nui.nvim",                    mods = { "nui" } },
+        { path = "nvim-ufo",                    mods = { "ufo" } },
+        { path = "promise-async",               mods = { "promise-async" } },
+        { path = "nvim-neoclip.lua",            mods = { "neoclip", "telescope" } },
+        { path = "zen-mode.nvim",               mods = { "zen-mode" } },
+        { path = "vim-suda",                    mods = { "suda" } }, -- has vimscript
         {
           path = "vim-matchup",
           mods = { "matchup", "match-up", "treesitter-matchup" },
         }, -- has vimscript
-        { path = "hop.nvim", mods = { "hop", "hop-treesitter", "hop-yank" } },
-        { path = "nvim-autopairs", mods = { "nvim-autopairs" } },
-        { path = "lsp_signature", mods = { "lsp_signature" } },
-        { path = "nvim-lightbulb", mods = { "nvim-lightbulb" } },
-        { path = "hot-reload.nvim", mods = { "hot-reload" } },
+        { path = "hop.nvim",          mods = { "hop", "hop-treesitter", "hop-yank" } },
+        { path = "nvim-autopairs",    mods = { "nvim-autopairs" } },
+        { path = "lsp_signature",     mods = { "lsp_signature" } },
+        { path = "nvim-lightbulb",    mods = { "nvim-lightbulb" } },
+        { path = "hot-reload.nvim",   mods = { "hot-reload" } },
         { path = "distroupdate.nvim", mods = { "distroupdate" } },
 
-        { path = "tokyonight.nvim", mods = { "tokyonight" } },
-        { path = "astrotheme", mods = { "astrotheme" } },
-        { path = "alpha-nvim", mods = { "alpha" } },
-        { path = "nvim-notify", mods = { "notify" } },
-        { path = "mini.indentscope", mods = { "mini.indentscope" } },
+        { path = "tokyonight.nvim",   mods = { "tokyonight" } },
+        { path = "astrotheme",        mods = { "astrotheme" } },
+        { path = "alpha-nvim",        mods = { "alpha" } },
+        { path = "nvim-notify",       mods = { "notify" } },
+        { path = "mini.indentscope",  mods = { "mini.indentscope" } },
         {
           path = "heirline-components.nvim",
           mods = { "heirline-components" },
         },
-        { path = "telescope.nvim", mods = { "telescope" } },
+        { path = "telescope.nvim",      mods = { "telescope" } },
         {
           path = "telescope-undo.nvim",
           mods = { "telescope", "telescope-undo" },
@@ -525,61 +525,61 @@ return {
           path = "telescope-fzf-native.nvim",
           mods = { "telescope", "fzf_lib" },
         },
-        { path = "dressing.nvim", mods = { "dressing" } },
-        { path = "noice.nvim", mods = { "noice", "telescope" } },
-        { path = "nvim-web-devicons", mods = { "nvim-web-devicons" } },
-        { path = "lspkind.nvim", mods = { "lspkind" } },
-        { path = "nvim-scrollbar", mods = { "scrollbar" } },
-        { path = "mini.animate", mods = { "mini.animate" } },
+        { path = "dressing.nvim",       mods = { "dressing" } },
+        { path = "noice.nvim",          mods = { "noice", "telescope" } },
+        { path = "nvim-web-devicons",   mods = { "nvim-web-devicons" } },
+        { path = "lspkind.nvim",        mods = { "lspkind" } },
+        { path = "nvim-scrollbar",      mods = { "scrollbar" } },
+        { path = "mini.animate",        mods = { "mini.animate" } },
         { path = "highlight-undo.nvim", mods = { "highlight-undo" } },
-        { path = "which-key.nvim", mods = { "which-key" } },
+        { path = "which-key.nvim",      mods = { "which-key" } },
 
-        { path = "nvim-treesitter", mods = { "nvim-treesitter" } },
-        { path = "nvim-ts-autotag", mods = { "nvim-ts-autotag" } },
+        { path = "nvim-treesitter",     mods = { "nvim-treesitter" } },
+        { path = "nvim-ts-autotag",     mods = { "nvim-ts-autotag" } },
         {
           path = "nvim-treesitter-textobjects",
           mods = { "nvim-treesitter", "nvim-treesitter-textobjects" },
         },
-        { path = "markdown.nvim", mods = { "render-markdown" } },
+        { path = "markdown.nvim",         mods = { "render-markdown" } },
         { path = "nvim-highlight-colors", mods = { "nvim-highlight-colors" } },
-        { path = "nvim-java", mods = { "java" } },
-        { path = "nvim-lspconfig", mods = { "lspconfig" } },
-        { path = "mason-lspconfig.nvim", mods = { "mason-lspconfig" } },
+        { path = "nvim-java",             mods = { "java" } },
+        { path = "nvim-lspconfig",        mods = { "lspconfig" } },
+        { path = "mason-lspconfig.nvim",  mods = { "mason-lspconfig" } },
         {
           path = "mason.nvim",
           mods = { "mason", "mason-core", "mason-registry", "mason-vendor" },
         },
-        { path = "mason-extra-cmds", mods = { "masonextracmds" } },
-        { path = "SchemaStore.nvim", mods = { "schemastore" } },
-        { path = "none-ls-autoload.nvim", mods = { "none-ls-autoload" } },
-        { path = "none-ls.nvim", mods = { "null-ls" } },
-        { path = "lazydev.nvim", mods = { "" } },
-        { path = "garbage-day.nvim", mods = { "garbage-day" } },
-        { path = "nvim-cmp", mods = { "cmp" } },
-        { path = "cmp_luasnip", mods = { "cmp_luasnip" } },
-        { path = "cmp-buffer", mods = { "cmp_buffer" } },
-        { path = "cmp-path", mods = { "cmp_path" } },
-        { path = "cmp-nvim-lsp", mods = { "cmp_nvim_lsp" } },
+        { path = "mason-extra-cmds",       mods = { "masonextracmds" } },
+        { path = "SchemaStore.nvim",       mods = { "schemastore" } },
+        { path = "none-ls-autoload.nvim",  mods = { "none-ls-autoload" } },
+        { path = "none-ls.nvim",           mods = { "null-ls" } },
+        { path = "lazydev.nvim",           mods = { "" } },
+        { path = "garbage-day.nvim",       mods = { "garbage-day" } },
+        { path = "nvim-cmp",               mods = { "cmp" } },
+        { path = "cmp_luasnip",            mods = { "cmp_luasnip" } },
+        { path = "cmp-buffer",             mods = { "cmp_buffer" } },
+        { path = "cmp-path",               mods = { "cmp_path" } },
+        { path = "cmp-nvim-lsp",           mods = { "cmp_nvim_lsp" } },
 
-        { path = "LuaSnip", mods = { "luasnip" } },
-        { path = "friendly-snippets", mods = { "snippets" } }, -- has vimscript
-        { path = "NormalSnippets", mods = { "snippets" } }, -- has vimscript
+        { path = "LuaSnip",                mods = { "luasnip" } },
+        { path = "friendly-snippets",      mods = { "snippets" } }, -- has vimscript
+        { path = "NormalSnippets",         mods = { "snippets" } }, -- has vimscript
         { path = "telescope-luasnip.nvim", mods = { "telescop" } },
-        { path = "gitsigns.nvim", mods = { "gitsigns" } },
-        { path = "vim-fugitive", mods = { "fugitive" } }, -- has vimscript
+        { path = "gitsigns.nvim",          mods = { "gitsigns" } },
+        { path = "vim-fugitive",           mods = { "fugitive" } }, -- has vimscript
         {
           path = "aerial.nvim",
           mods = { "aerial", "telescope", "lualine", "resession" },
         },
-        { path = "litee.nvim", mods = { "litee" } },
-        { path = "litee-calltree.nvim", mods = { "litee" } },
-        { path = "dooku.nvim", mods = { "dooku" } },
+        { path = "litee.nvim",            mods = { "litee" } },
+        { path = "litee-calltree.nvim",   mods = { "litee" } },
+        { path = "dooku.nvim",            mods = { "dooku" } },
         { path = "markdown-preview.nvim", mods = { "mkdp" } }, -- has vimscript
-        { path = "markmap.nvim", mods = { "markmap" } },
-        { path = "neural", mods = { "neural" } },
-        { path = "copilot", mods = { "copilot" } },
-        { path = "guess-indent.nvim", mods = { "guess-indent" } },
-        { path = "compiler.nvim", mods = { "compiler" } },
+        { path = "markmap.nvim",          mods = { "markmap" } },
+        { path = "neural",                mods = { "neural" } },
+        { path = "copilot",               mods = { "copilot" } },
+        { path = "guess-indent.nvim",     mods = { "guess-indent" } },
+        { path = "compiler.nvim",         mods = { "compiler" } },
         {
           path = "overseer.nvim",
           mods = {
@@ -590,27 +590,27 @@ return {
             "cmp_overseer",
           },
         },
-        { path = "nvim-dap", mods = { "dap" } },
-        { path = "nvim-nio", mods = { "nio" } },
-        { path = "nvim-dap-ui", mods = { "dapui" } },
-        { path = "cmp-dap", mods = { "cmp_dap" } },
-        { path = "cmp-copilot", mods = { "cmp_copilot" } },
-        { path = "mason-nvim-dap.nvim", mods = { "mason-nvim-dap" } },
+        { path = "nvim-dap",                   mods = { "dap" } },
+        { path = "nvim-nio",                   mods = { "nio" } },
+        { path = "nvim-dap-ui",                mods = { "dapui" } },
+        { path = "cmp-dap",                    mods = { "cmp_dap" } },
+        { path = "cmp-copilot",                mods = { "cmp_copilot" } },
+        { path = "mason-nvim-dap.nvim",        mods = { "mason-nvim-dap" } },
 
         { path = "one-small-step-for-vimkind", mods = { "osv" } },
-        { path = "neotest-dart", mods = { "neotest-dart" } },
-        { path = "neotest-dotnet", mods = { "neotest-dotnet" } },
-        { path = "neotest-elixir", mods = { "neotest-elixir" } },
-        { path = "neotest-golang", mods = { "neotest-golang" } },
-        { path = "neotest-java", mods = { "neotest-java" } },
-        { path = "neotest-jest", mods = { "neotest-jest" } },
-        { path = "neotest-phpunit", mods = { "neotest-phpunit" } },
-        { path = "neotest-python", mods = { "neotest-python" } },
-        { path = "neotest-rust", mods = { "neotest-rust" } },
-        { path = "neotest-zig", mods = { "neotest-zig" } },
-        { path = "nvim-coverage.nvim", mods = { "coverage" } },
-        { path = "gutentags_plus", mods = { "gutentags_plus" } }, -- has vimscript
-        { path = "vim-gutentags", mods = { "vim-gutentags" } }, -- has vimscript
+        { path = "neotest-dart",               mods = { "neotest-dart" } },
+        { path = "neotest-dotnet",             mods = { "neotest-dotnet" } },
+        { path = "neotest-elixir",             mods = { "neotest-elixir" } },
+        { path = "neotest-golang",             mods = { "neotest-golang" } },
+        { path = "neotest-java",               mods = { "neotest-java" } },
+        { path = "neotest-jest",               mods = { "neotest-jest" } },
+        { path = "neotest-phpunit",            mods = { "neotest-phpunit" } },
+        { path = "neotest-python",             mods = { "neotest-python" } },
+        { path = "neotest-rust",               mods = { "neotest-rust" } },
+        { path = "neotest-zig",                mods = { "neotest-zig" } },
+        { path = "nvim-coverage.nvim",         mods = { "coverage" } },
+        { path = "gutentags_plus",             mods = { "gutentags_plus" } }, -- has vimscript
+        { path = "vim-gutentags",              mods = { "vim-gutentags" } },  -- has vimscript
 
         -- To make it work exactly like neodev, you can add all plugins
         -- without conditions instead like this but it will load slower
@@ -618,7 +618,7 @@ return {
         -- vim.fn.stdpath "data" .. "/lazy",
 
         -- You can also add libs.
-        { path = "luvit-meta/library", mods = { "vim%.uv" } },
+        { path = "luvit-meta/library",         mods = { "vim%.uv" } },
       }
     end,
     specs = { { "Bilal2453/luvit-meta", lazy = true } },
@@ -632,7 +632,7 @@ return {
     dependencies = {
       { "hrsh7th/cmp-nvim-lsp" },
       { "saadparwaiz1/cmp_luasnip" },
-      { "zbirenbaum/copilot-cmp", opts = {} },
+      { "zbirenbaum/copilot-cmp",  opts = {} },
       { "hrsh7th/cmp-buffer" },
       { "hrsh7th/cmp-path" },
       { "onsails/lspkind.nvim" },
@@ -658,10 +658,10 @@ return {
       local function has_words_before()
         local line, col = unpack(vim.api.nvim_win_get_cursor(0))
         return col ~= 0
-          and vim.api
-              .nvim_buf_get_lines(0, line - 1, line, true)[1]
-              :sub(col, col)
-              :match("%s")
+            and vim.api
+            .nvim_buf_get_lines(0, line - 1, line, true)[1]
+            :sub(col, col)
+            :match("%s")
             == nil
       end
 
@@ -669,10 +669,10 @@ return {
         enabled = function() -- disable in certain cases on dap.
           local is_prompt = vim.bo.buftype == "prompt"
           local is_dap_prompt = utils.is_available("cmp-dap")
-            and vim.tbl_contains(
-              { "dap-repl", "dapui_watches", "dapui_hover" },
-              vim.bo.filetype
-            )
+              and vim.tbl_contains(
+                { "dap-repl", "dapui_watches", "dapui_hover" },
+                vim.bo.filetype
+              )
           if is_prompt and not is_dap_prompt then
             return false
           else
@@ -781,11 +781,11 @@ return {
         sources = cmp.config.sources({
           -- Note: Priority decides the order items appear.
           { name = "nvim_lsp", priority = 1000 },
-          { name = "lazydev", priority = 850 },
-          { name = "luasnip", priority = 750 },
-          { name = "copilot", priority = 600 },
-          { name = "buffer", priority = 500 },
-          { name = "path", priority = 250 },
+          { name = "lazydev",  priority = 850 },
+          { name = "luasnip",  priority = 750 },
+          { name = "copilot",  priority = 600 },
+          { name = "buffer",   priority = 500 },
+          { name = "path",     priority = 250 },
         }),
       }
     end,
