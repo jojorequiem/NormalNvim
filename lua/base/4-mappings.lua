@@ -224,63 +224,49 @@ maps.x["<Tab>"] = { ">gv", desc = "indent line" }
 maps.x["<"] = { "<gv", desc = "unindent line" }
 maps.x[">"] = { ">gv", desc = "indent line" }
 
+-- AI NOTE: These remaps override default `G`/`gg` behavior. Keep them disabled
+-- so Neovim's native motions apply (instant jumps, no extra logic).
+--[[
 -- improved gg --------------------------------------------------------------
-local function with_minianimate_disabled(action)
-  vim.g.minianimate_disable = true
-  action()
-  vim.defer_fn(function()
-    vim.g.minianimate_disable = false
-  end, 120)
-end
-
 maps.n["gg"] = {
   function()
-    with_minianimate_disabled(function()
-      if vim.v.count > 0 then
-        vim.cmd("normal! " .. vim.v.count .. "gg")
-      else
-        vim.cmd("normal! gg0")
-      end
-    end)
+    if vim.v.count > 0 then
+      vim.cmd("normal! " .. vim.v.count .. "gg")
+    else
+      vim.cmd("normal! gg0")
+    end
   end,
   desc = "gg and go to the first position",
 }
 maps.n["G"] = {
   function()
-    with_minianimate_disabled(function()
-      vim.cmd("normal! G$")
-    end)
+    vim.cmd("normal! G$")
   end,
   desc = "G and go to the last position",
 }
 maps.x["gg"] = {
   function()
-    with_minianimate_disabled(function()
-      if vim.v.count > 0 then
-        vim.cmd("normal! " .. vim.v.count .. "gg")
-      else
-        vim.cmd("normal! gg0")
-      end
-    end)
+    if vim.v.count > 0 then
+      vim.cmd("normal! " .. vim.v.count .. "gg")
+    else
+      vim.cmd("normal! gg0")
+    end
   end,
   desc = "gg and go to the first position (visual)",
 }
 maps.x["G"] = {
   function()
-    with_minianimate_disabled(function()
-      vim.cmd("normal! G$")
-    end)
+    vim.cmd("normal! G$")
   end,
   desc = "G and go to the last position (visual)",
 }
 maps.n["<C-a>"] = { -- to move to the previous position press ctrl + oo
   function()
-    with_minianimate_disabled(function()
-      vim.cmd("normal! gg0vG$")
-    end)
+    vim.cmd("normal! gg0vG$")
   end,
   desc = "Visually select all",
 }
+]]
 
 -- packages -----------------------------------------------------------------
 -- lazy
