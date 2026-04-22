@@ -684,6 +684,9 @@ return {
           timing = animate.gen_timing.linear { duration = 50, unit = "total" },
           subscroll = animate.gen_subscroll.equal {
             predicate = function(total_scroll)
+              if vim.g.minianimate_disable then
+                return false
+              end
               if mouse_scrolled then
                 mouse_scrolled = false
                 return false
