@@ -1,1 +1,7 @@
 /lua/base/git-ignored
+.codex
+makethisforme.md
+.env
+.env.*
+*.pem
+*.key
