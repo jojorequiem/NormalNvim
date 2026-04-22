@@ -179,20 +179,14 @@ return {
         }
       else
         dashboard.section.header.val = {
-          [[888b      88                                                           88]],
-          [[8888b     88                                                           88]],
-          [[88 `8b    88                                                           88]],
-          [[88  `8b   88   ,adPPYba,   8b,dPPYba,  88,dPYba,,adPYba,   ,adPPYYba,  88]],
-          [[88   `8b  88  a8"     "8a  88P'   "Y8  88P'   "88"    "8a  ""     `Y8  88]],
-          [[88    `8b 88  8b       d8  88          88      88      88  ,adPPPPP88  88]],
-          [[88     `8888  "8a,   ,a8"  88          88      88      88  88,    ,88  88]],
-          [[88      `888   `"YbbdP"'   88          88      88      88  `"8bbdP"Y8  88]],
-          [[                                    __                ]],
-          [[                      ___   __  __ /\_\    ___ ___    ]],
-          [[                    /' _ `\/\ \/\ \\/\ \ /' __` __`\  ]],
-          [[                    /\ \/\ \ \ \_/ |\ \ \/\ \/\ \/\ \ ]],
-          [[                    \ \_\ \_\ \___/  \ \_\ \_\ \_\ \_\]],
-          [[                     \/_/\/_/\/__/    \/_/\/_/\/_/\/_/]],
+          "                                                                     ",
+          "       ████ ██████           █████      ██                     ",
+          "      ███████████             █████                             ",
+          "      █████████ ███████████████████ ███   ███████████   ",
+          "     █████████  ███    █████████████ █████ ██████████████   ",
+          "    █████████ ██████████ █████████ █████ █████ ████ █████   ",
+          "  ███████████ ███    ███ █████████ █████ █████ ████ █████  ",
+          " ██████  █████████████████████ ████ █████ █████ ████ ██████ ",
         }
       end
 
@@ -200,7 +194,7 @@ return {
       local get_icon = require("base.utils").get_icon
 
       dashboard.section.header.opts.hl = "DashboardHeader"
-      vim.cmd("highlight DashboardHeader guifg=#F7778F")
+      -- vim.cmd("highlight DashboardHeader guifg=#fb4934")
 
       -- If yazi is not installed, don't show the button.
       local is_yazi_installed = vim.fn.executable("ya") == 1
@@ -209,22 +203,14 @@ return {
 
       -- Buttons
       dashboard.section.buttons.val = {
-        dashboard.button("n",
-          get_icon("GreeterNew") .. " New",
-          "<cmd>ene<CR>"),
-        dashboard.button("e",
-          get_icon("GreeterRecent") .. " Recent  ",
-          "<cmd>Telescope oldfiles<CR>"),
-        yazi_button,
-        dashboard.button("s",
-          get_icon("GreeterSessions") .. " Sessions",
-          "<cmd>SessionManager! load_session<CR>"
-        ),
-        dashboard.button("p",
-          get_icon("GreeterProjects") .. " Projects",
-          "<cmd>Telescope projects<CR>"),
-        dashboard.button("", ""),
-        dashboard.button("q", "   Quit", "<cmd>exit<CR>"),
+        dashboard.button("n", get_icon("GreeterNew") .. "   New file", "<cmd>ene<CR>"),
+        dashboard.button("e", get_icon("GreeterRecent") .. "   Recent  ", "<cmd>Telescope oldfiles<CR>"),
+        -- yazi_button,
+        dashboard.button("f", get_icon("GreeterFindFile") .. "   Find File", "<cmd>Telescope find_files<CR>"),
+        dashboard.button("s", get_icon("GreeterSessions") .. "   Sessions", "<cmd>SessionManager! load_session<CR>"),
+        dashboard.button("p", get_icon("GreeterProjects") .. "   Projects", "<cmd>Telescope projects<CR>"),
+        dashboard.button("c", get_icon("GreeterConfigurationFile") .. "   Configuration", "<cmd>lua _G.find_config_files()<CR>"),
+        dashboard.button("q", get_icon("GreeterQuit") .. "   Quit", "<cmd>exit<CR>"),
       }
 
       -- Vertical margins
@@ -245,16 +231,12 @@ return {
         desc = "Add Alpha dashboard footer",
         once = true,
         callback = function()
-          local  footer_icon = require("base.utils").get_icon("GreeterPlug")
+          local footer_icon = require("base.utils").get_icon("GreeterPlug")
           local stats = require("lazy").stats()
           stats.real_cputime = not is_windows
           local ms = math.floor(stats.startuptime * 100 + 0.5) / 100
           opts.section.footer.val = {
-            " ",
-            " ",
-            " ",
-            "Loaded " .. stats.loaded .. " plugins " .. footer_icon .. " in " .. ms .. "ms",
-            ".............................",
+            -- "Loaded " .. stats.loaded .. " plugins " .. footer_icon .. " in " .. ms .. "ms",
           }
           opts.section.footer.opts.hl = "DashboardFooter"
           vim.cmd("highlight DashboardFooter guifg=#D29B68")

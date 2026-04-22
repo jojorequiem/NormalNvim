@@ -104,17 +104,29 @@ maps.n["\\"] = { "<cmd>split<cr>", desc = "Horizontal Split" }
 maps.i["<C-BS>"] = { "<C-W>", desc = "Enable CTRL+backsace to delete." }
 maps.n["0"] =
 { "^", desc = "Go to the fist character of the line (aliases 0 to ^)" }
-maps.n["<leader>q"] = { "<cmd>confirm q<cr>", desc = "Quit" }
 maps.n["<leader>q"] = {
   function()
-    -- Ask user for confirmation
-    local choice = vim.fn.confirm("Do you really want to exit nvim?", "&Yes\n&No", 2)
-    if choice == 1 then
-      -- If user confirms, but there are still files to be saved: Ask
-      vim.cmd('confirm quit')
+    local has_unsaved = false
+    for _, bufnr in ipairs(vim.api.nvim_list_bufs()) do
+      if vim.bo[bufnr].modified then
+        has_unsaved = true
+        break
+      end
     end
+
+    if not has_unsaved then
+      vim.cmd("qa")
+      return
+    end
+
+    local choice = vim.fn.confirm(
+      "You have unsaved changes. Quit anyway?",
+      "&Yes\n&No",
+      2
+    )
+    if choice == 1 then vim.cmd("qa!") end
   end,
-  desc = "Quit",
+  desc = "Quit Neovim",
 }
 maps.n["<Tab>"] = {
   "<Tab>",
