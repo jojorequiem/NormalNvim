@@ -354,6 +354,27 @@ return {
     opts = {},
   },
 
+  --  codecompanion.nvim [ai chat/inline/cmd]
+  --  https://codecompanion.olimorris.dev/installation
+  --  Commands: :CodeCompanion, :CodeCompanionChat, :CodeCompanionActions, :CodeCompanionCmd, :CodeCompanionCLI
+  --  NOTE: Adapters read `*_API_KEY` from your environment by default (e.g. `OPENAI_API_KEY`, `ANTHROPIC_API_KEY`).
+  {
+    "olimorris/codecompanion.nvim",
+    version = "^19.0.0",
+    cmd = {
+      "CodeCompanion",
+      "CodeCompanionChat",
+      "CodeCompanionActions",
+      "CodeCompanionCmd",
+      "CodeCompanionCLI",
+    },
+    opts = {},
+    dependencies = {
+      "nvim-lua/plenary.nvim",
+      "nvim-treesitter/nvim-treesitter",
+    },
+  },
+
   -- [guess-indent]
   -- https://github.com/NMAC427/guess-indent.nvim
   -- Note that this plugin won't autoformat the code.
