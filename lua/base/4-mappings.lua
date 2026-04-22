@@ -300,6 +300,10 @@ maps.n["<leader>pv"] = { "<cmd>DistroReadVersion<cr>", desc = "Distro version" }
 maps.n["<leader>pc"] = { "<cmd>DistroReadChangelog<cr>", desc = "Distro changelog" }
 
 -- buffers/tabs [buffers ]--------------------------------------------------
+-- AI NOTE (perf): The mappings below integrate with `heirline-components` tabline/buffer UI.
+-- They are disabled to match a minimal UI setup and avoid loading/using extra tabline features.
+-- Re-enable by removing the block comment markers.
+--[[
 maps.n["<leader>c"] = { -- Close window and buffer at the same time.
   function() require("heirline-components.buffer").wipe() end,
   desc = "Wipe buffer",
@@ -434,6 +438,7 @@ maps.n["<C-j>"] = {
   end,
   desc = "Previous buffer",
 }
+]]
 
 -- tabs
 maps.n["]t"] = { function() vim.cmd.tabnext() end, desc = "Next tab" }
