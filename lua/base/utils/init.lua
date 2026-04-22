@@ -4,21 +4,23 @@
 --  General utility functions to use within Nvim.
 
 --    Functions:
---      -> run_cmd                  → Run a shell command and return true/false.
---      -> add_autocmds_to_buffer   → Add autocmds to a bufnr.
---      -> del_autocmds_from_buffer → Delete autocmds from a bufnr.
---      -> get_icon                 → Return an icon from the icons directory.
---      -> get_mappings_template    → Return a empty mappings table.
---      -> is_available             → Return true if the plugin exist.
---      -> is_big_file              → Return true if the file is too big.
---      -> notify                   → Send a notification with a default title.
---      -> os_path                  → Converts a path to the current OS.
---      -> get_plugin_opts          → Return a plugin opts table.
---      -> set_mappings             → Set a list of mappings in a clean way.
---      -> set_url_effect           → Show an effect for urls.
---      -> open_with_program        → Open the file or URL under the cursor.
---      -> trigger_event            → Manually trigger an event.
---      -> which_key_register       → When setting a mapping, add it to whichkey.
+--      -> run_cmd                       → Run a shell command and return true/false.
+--      -> add_autocmds_to_buffer        → Add autocmds to a bufnr.
+--      -> apply_lsp_diagnostic_defaults → Apply Default LSP settings.
+--      -> apply_user_lsp_mappings       → Apply user lsp mappings to a lsp client.
+--      -> del_autocmds_from_buffer      → Delete autocmds from a bufnr.
+--      -> get_icon                      → Return an icon from the icons directory.
+--      -> get_mappings_template         → Return a empty mappings table.
+--      -> is_available                  → Return true if the plugin exist.
+--      -> is_big_file                   → Return true if the file is too big.
+--      -> notify                        → Send a notification with a default title.
+--      -> os_path                       → Converts a path to the current OS.
+--      -> get_plugin_opts               → Return a plugin opts table.
+--      -> set_mappings                  → Set a list of mappings in a clean way.
+--      -> set_url_hl                    → Add underline highlight to urls.
+--      -> open_with_program             → Open the file or URL under the cursor.
+--      -> trigger_event                 → Manually trigger an event.
+--      -> which_key_register            → When setting a mapping, add it to whichkey.
 
 
 local M = {}
@@ -91,6 +93,82 @@ function M.add_autocmds_to_buffer(augroup, bufnr, autocmds)
       vim.api.nvim_create_autocmd(events, autocmd)
     end
   end
+end
+
+--- This function define how LSP diagnostics will look.
+M.apply_lsp_diagnostic_defaults = function()
+
+  -- Define LSP diagnostics icons defined in ../icons/icons.lua
+  local signs = {
+    { name = "DiagnosticSignError",    text = M.get_icon("DiagnosticError"),        texthl = "DiagnosticSignError" },
+    { name = "DiagnosticSignWarn",     text = M.get_icon("DiagnosticWarn"),         texthl = "DiagnosticSignWarn" },
+    { name = "DiagnosticSignHint",     text = M.get_icon("DiagnosticHint"),         texthl = "DiagnosticSignHint" },
+    { name = "DiagnosticSignInfo",     text = M.get_icon("DiagnosticInfo"),         texthl = "DiagnosticSignInfo" },
+    { name = "DapStopped",             text = M.get_icon("DapStopped"),             texthl = "DiagnosticWarn" },
+    { name = "DapBreakpoint",          text = M.get_icon("DapBreakpoint"),          texthl = "DiagnosticInfo" },
+    { name = "DapBreakpointRejected",  text = M.get_icon("DapBreakpointRejected"),  texthl = "DiagnosticError" },
+    { name = "DapBreakpointCondition", text = M.get_icon("DapBreakpointCondition"), texthl = "DiagnosticInfo" },
+    { name = "DapLogPoint",            text = M.get_icon("DapLogPoint"),            texthl = "DiagnosticInfo" }
+  }
+  for _, sign in ipairs(signs) do
+    vim.fn.sign_define(sign.name, sign)
+  end
+
+  -- Define diagnostic opts
+  local diagnostics_opts = {
+    virtual_text = true,
+    signs = {
+      text = {
+        [vim.diagnostic.severity.ERROR] = M.get_icon("DiagnosticError"),
+        [vim.diagnostic.severity.HINT] = M.get_icon("DiagnosticHint"),
+        [vim.diagnostic.severity.WARN] = M.get_icon("DiagnosticWarn"),
+        [vim.diagnostic.severity.INFO] = M.get_icon("DiagnosticInfo"),
+      },
+      active = signs,
+    },
+    update_in_insert = true,
+    underline = true,
+    severity_sort = true,
+    float = {
+      focused = false,
+      style = "minimal",
+      border = "rounded",
+      source = "always",
+      header = "",
+      prefix = "",
+    },
+  }
+
+  -- Define the table of options used by vim.g.diagnostics_mode in ../1-options.lua
+  M.diagnostics_enum = {
+    -- diagnostics off
+    [0] = vim.tbl_deep_extend(
+      "force",
+      diagnostics_opts,
+      { underline = false, virtual_text = false, signs = false, update_in_insert = false }
+    ),
+    -- status only
+    vim.tbl_deep_extend("force", diagnostics_opts, { virtual_text = false, signs = false }),
+    -- virtual text off, signs on
+    vim.tbl_deep_extend("force", diagnostics_opts, { virtual_text = false }),
+    -- all diagnostics on
+    diagnostics_opts,
+  }
+
+  vim.diagnostic.config(M.diagnostics_enum[vim.g.diagnostics_mode])
+end
+
+--- Applies the user lsp mappings to a lsp client.
+--- This function must be called every time a lsp client is attached.
+--- (currently on the config of the plugin `lspconfig`)
+--- @param client string The lsp client to attach the lsp mappings to.
+--- @param bufnr number The bufnr to attach the lsp mappings to.
+function M.apply_user_lsp_mappings(client, bufnr)
+  local lsp_mappings = require("base.4-mappings").lsp_mappings(client, bufnr)
+  if not vim.tbl_isempty(lsp_mappings.v) then
+    lsp_mappings.v["<leader>l"] = { desc = M.get_icon("ActiveLSP", true) .. "LSP" }
+  end
+  M.set_mappings(lsp_mappings, { buffer = bufnr })
 end
 
 --- Deletes autocmds associated with a specific buffer and autocmd group.
@@ -241,8 +319,8 @@ function M.set_mappings(map_table, base)
 end
 
 
---- Add syntax matching rules for highlighting URLs/URIs.
-function M.set_url_effect()
+--- Set a highlight to apply to URLs.
+function M.set_url_hl()
   --- regex used for matching a valid URL/URI string
   local url_matcher =
       "\\v\\c%(%(h?ttps?|ftp|file|ssh|git)://|[a-z]+[@][a-z]+[.][a-z]+:)" ..
@@ -252,14 +330,15 @@ function M.set_url_effect()
       "|\\[[&:#*@~%_\\-=?!+;/.0-9a-z]*\\]|\\{%([&:#*@~%_\\-=?!+;/.0-9a-z]*" ..
       "|\\{[&:#*@~%_\\-=?!+;/.0-9a-z]*})\\})+"
 
-  M.delete_url_effect()
-  if vim.g.url_effect_enabled then
+  M.delete_url_hl()
+  if vim.g.url_hl_enabled then -- set url hl
+    vim.api.nvim_set_hl(0, "HighlightURL", { underline = true, bg = "NONE" })
     vim.fn.matchadd("HighlightURL", url_matcher, 15)
   end
 end
 
 --- Delete the syntax matching rules for URLs/URIs if set.
-function M.delete_url_effect()
+function M.delete_url_hl()
   for _, match in ipairs(vim.fn.getmatches()) do
     if match.group == "HighlightURL" then vim.fn.matchdelete(match.id) end
   end
