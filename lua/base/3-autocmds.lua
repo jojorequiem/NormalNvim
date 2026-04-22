@@ -39,12 +39,12 @@ autocmd({ "BufReadPost", "BufNewFile", "BufWritePost" }, {
       { buf = args.buf }
     ) == "alpha"
     local git_repo = vim.fn.executable("git") == 1
-      and utils.run_cmd({
-        "git",
-        "-C",
-        vim.fn.fnamemodify(vim.fn.resolve(vim.fn.expand("%")), ":p:h"),
-        "rev-parse",
-      }, false)
+        and utils.run_cmd({
+          "git",
+          "-C",
+          vim.fn.fnamemodify(vim.fn.resolve(vim.fn.expand("%")), ":p:h"),
+          "rev-parse",
+        }, false)
 
     -- For any file exept empty buffer, or the greeter (alpha)
     if not (empty_buffer or greeter) then
@@ -63,7 +63,7 @@ autocmd({ "VimEnter" }, {
       -- In order to avoid visual glitches.
       utils.trigger_event("User BaseDefered", true)
       utils.trigger_event("BufEnter", true) -- also, initialize tabline_buffers.
-    else -- Wait some ms before triggering the event.
+    else                                    -- Wait some ms before triggering the event.
       vim.defer_fn(function() utils.trigger_event("User BaseDefered") end, 70)
     end
   end,
@@ -83,15 +83,15 @@ autocmd("BufWinEnter", {
   callback = function(args)
     if not vim.b[args.buf].view_activated then
       local filetype =
-        vim.api.nvim_get_option_value("filetype", { buf = args.buf })
+          vim.api.nvim_get_option_value("filetype", { buf = args.buf })
       local buftype =
-        vim.api.nvim_get_option_value("buftype", { buf = args.buf })
+          vim.api.nvim_get_option_value("buftype", { buf = args.buf })
       local ignore_filetypes = { "gitcommit", "gitrebase", "svg", "hgcommit" }
       if
-        buftype == ""
-        and filetype
-        and filetype ~= ""
-        and not vim.tbl_contains(ignore_filetypes, filetype)
+          buftype == ""
+          and filetype
+          and filetype ~= ""
+          and not vim.tbl_contains(ignore_filetypes, filetype)
       then
         vim.b[args.buf].view_activated = true
         vim.cmd.loadview({ mods = { emsg_silent = true } })
@@ -114,10 +114,10 @@ if is_available("alpha-nvim") then
         { buf = 0 }
       ) == "nofile"
       if
-        (
-          (args.event == "User" and args.file == "AlphaReady")
-          or (args.event == "BufEnter" and is_filetype_alpha)
-        ) and not vim.g.before_alpha
+          (
+            (args.event == "User" and args.file == "AlphaReady")
+            or (args.event == "BufEnter" and is_filetype_alpha)
+          ) and not vim.g.before_alpha
       then
         vim.g.before_alpha = {
           showtabline = vim.opt.showtabline:get(),
@@ -125,9 +125,9 @@ if is_available("alpha-nvim") then
         }
         vim.opt.showtabline, vim.opt.laststatus = 0, 0
       elseif
-        vim.g.before_alpha
-        and args.event == "BufEnter"
-        and not is_empty_file
+          vim.g.before_alpha
+          and args.event == "BufEnter"
+          and not is_empty_file
       then
         vim.opt.laststatus = vim.g.before_alpha.laststatus
         vim.opt.showtabline = vim.g.before_alpha.showtabline
@@ -141,8 +141,8 @@ if is_available("alpha-nvim") then
       -- Precalculate conditions.
       local lines = vim.api.nvim_buf_get_lines(0, 0, 2, false)
       local buf_not_empty = vim.fn.argc() > 0
-        or #lines > 1
-        or (#lines == 1 and lines[1]:len() > 0)
+          or #lines > 1
+          or (#lines == 1 and lines[1]:len() > 0)
       local buflist_not_empty = #vim.tbl_filter(
         function(bufnr) return vim.bo[bufnr].buflisted end,
         vim.api.nvim_list_bufs()
@@ -155,10 +155,10 @@ if is_available("alpha-nvim") then
       end
       for _, arg in pairs(vim.v.argv) do
         if
-          arg == "-b"
-          or arg == "-c"
-          or vim.startswith(arg, "+")
-          or arg == "-S"
+            arg == "-b"
+            or arg == "-c"
+            or vim.startswith(arg, "+")
+            or arg == "-S"
         then
           return
         end
@@ -199,7 +199,7 @@ autocmd("BufWritePre", {
   desc = "Automatically create parent directories if they don't exist when saving a file",
   callback = function(args)
     local buf_is_valid_and_listed = vim.api.nvim_buf_is_valid(args.buf)
-      and vim.bo[args.buf].buflisted
+        and vim.bo[args.buf].buflisted
 
     if buf_is_valid_and_listed then
       vim.fn.mkdir(
@@ -268,13 +268,13 @@ autocmd("BufWritePre", {
 cmd("TestNodejs", function()
   -- You can generate code coverage by adding this to your project's packages.json
   -- "tests": "jest --coverage"
-  vim.cmd(":ProjectRoot") -- cd the project root (requires project.nvim)
+  vim.cmd(":ProjectRoot")                 -- cd the project root (requires project.nvim)
   vim.cmd(":TermExec cmd='npm run test'") -- convention to run tests on nodejs
 end, { desc = "Run all unit tests for the current nodejs project" })
 
 -- Customize this command to work as you like
 cmd("TestNodejsE2e", function()
-  vim.cmd(":ProjectRoot") -- cd the project root (requires project.nvim)
+  vim.cmd(":ProjectRoot")                -- cd the project root (requires project.nvim)
   vim.cmd(":TermExec cmd='npm run e2e'") -- Conventional way to call e2e in nodejs (requires ToggleTerm)
 end, { desc = "Run e2e tests for the current nodejs project" })
 
@@ -355,13 +355,13 @@ vim.api.nvim_create_autocmd("FileType", {
 
     -- Appliquer l'italique seulement aux vrais mots-clés
     local italic_groups = {
-      "@keyword", -- ex : import, lambda
+      "@keyword",          -- ex : import, lambda
       "@keyword.function", -- ex : def
-      "@keyword.return", -- ex : return
-      "@conditional", -- ex : if, else
-      "@repeat", -- ex : for, while
-      "@exception", -- ex : try, raise
-      "@operator", -- ex : and, or, not
+      "@keyword.return",   -- ex : return
+      "@conditional",      -- ex : if, else
+      "@repeat",           -- ex : for, while
+      "@exception",        -- ex : try, raise
+      "@operator",         -- ex : and, or, not
       "@function.builtin", -- ex : print
     }
 
@@ -371,12 +371,12 @@ vim.api.nvim_create_autocmd("FileType", {
     end
 
     local non_italic_groups = {
-      "@function", -- noms de fonctions utilisateur
-      "@type", -- noms de classes/types
+      "@function",        -- noms de fonctions utilisateur
+      "@type",            -- noms de classes/types
       "@type.definition", -- class, struct
       "@namespace",
-      "@comment", -- commentaires
-      "@string", -- chaînes
+      "@comment",         -- commentaires
+      "@string",          -- chaînes
       -- Groupes pour suggestions (complétion)
       "CmpItemAbbr",
       "CmpItemAbbrMatch",
@@ -394,7 +394,7 @@ vim.api.nvim_create_autocmd("FileType", {
 
 vim.api.nvim_create_user_command("CopyCursorDiagnostic", function()
   local diagnostics =
-    vim.diagnostic.get(0, { lnum = vim.api.nvim_win_get_cursor(0)[1] - 1 })
+      vim.diagnostic.get(0, { lnum = vim.api.nvim_win_get_cursor(0)[1] - 1 })
   if diagnostics and #diagnostics > 0 then
     local msg = diagnostics[1].message
     vim.fn.setreg("+", msg)

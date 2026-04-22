@@ -7,7 +7,7 @@ local function load_source(source)
   local status_ok, error = pcall(require, source)
   if not status_ok then
     vim.api.nvim_echo(
-      {{"Failed to load " .. source .. "\n\n" .. error}}, true, {err = true}
+      { { "Failed to load " .. source .. "\n\n" .. error } }, true, { err = true }
     )
   end
 end
@@ -28,14 +28,14 @@ local function load_sources_async(source_files)
 end
 
 local function load_colorscheme(colorscheme)
-    if vim.g.default_colorscheme then
-      if not pcall(vim.cmd.colorscheme, colorscheme) then
-        require("base.utils").notify(
-          "Error setting up colorscheme: " .. colorscheme,
-          vim.log.levels.ERROR
-        )
-      end
+  if vim.g.default_colorscheme then
+    if not pcall(vim.cmd.colorscheme, colorscheme) then
+      require("base.utils").notify(
+        "Error setting up colorscheme: " .. colorscheme,
+        vim.log.levels.ERROR
+      )
     end
+  end
 end
 
 -- Call the functions defined above.
