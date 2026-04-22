@@ -558,9 +558,9 @@ return {
     opts = function()
       local enable_conceal = false          -- Hide command text if true
       return {
-        presets = { bottom_search = true }, -- The kind of popup used for /
+        presets = { bottom_search = false }, -- Show search/cmdline as popup (centered)
         cmdline = {
-          view = "cmdline",                 -- The kind of popup used for :
+          view = "cmdline_popup",           -- The kind of popup used for :
           format = {
             cmdline = { conceal = enable_conceal },
             search_down = { conceal = enable_conceal },
@@ -570,6 +570,14 @@ return {
             help = { conceal = enable_conceal },
             input = { conceal = enable_conceal },
           }
+        },
+        views = {
+          cmdline_popup = {
+            position = {
+              row = "40%",
+              col = "50%",
+            },
+          },
         },
 
         -- Disable every other noice feature
